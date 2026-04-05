@@ -1,4 +1,4 @@
-import type { Metadata } from "site/metadata" // We'll just define metadata directly here. Wait, let me rewrite this to not use fake imports.
+import type { Metadata } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import SmoothScroll from "@/components/layout/SmoothScroll"
