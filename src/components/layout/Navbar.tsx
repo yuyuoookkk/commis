@@ -44,7 +44,7 @@ export default function Navbar() {
         <div className="relative w-8 h-8 sm:w-10 sm:h-10 overflow-hidden group-hover:scale-105 transition-transform shrink-0">
           <Image src="/image.png" alt="Bintang Bali Logo" fill sizes="40px" className="object-contain" priority />
         </div>
-        <span className="hidden sm:inline font-serif text-lg font-medium tracking-wide text-white">Bintang Bali</span>
+        <span className="font-serif text-base sm:text-lg font-medium tracking-wide text-white">Bintang Bali</span>
       </Link>
 
       {/* Links - Hidden on Mobile */}
