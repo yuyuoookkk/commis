@@ -1,145 +1,185 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
-import { ArrowRight, Clock, Star } from "lucide-react"
 import { cn } from "@/lib/utils"
+import {
+  Clock,
+  Sun,
+  Ship,
+  Anchor,
+  Plane,
+  Heart,
+  Car,
+  ChevronRight,
+  Sparkles,
+} from "lucide-react"
 
-const PACKAGES = [
+const SERVICES = [
   {
     id: 1,
-    title: "Bali Honeymoon Escape",
-    desc: "A romantic 7-day journey across Bali's most intimate locations, featuring private pool villas, sunset dinners, and couple's spa treatments.",
-    price: "IDR 15,000,000",
-    image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=1200",
-    featured: true,
-    rating: 4.9,
-    reviews: 124,
-    duration: "7 Days"
+    title: "Full Day Tour",
+    subtitle: "Max 10 Hours",
+    desc: "Maximum 10 hours of exploration. Includes petrol, car, and driver. All cars are newest models starting from 2022.",
+    icon: Sun,
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1400",
+    features: ["Petrol included", "Private driver", "Newest car models"],
   },
   {
     id: 2,
-    title: "Mt. Agung Trekking",
-    desc: "Challenge yourself with a guided sunrise trek up Bali's highest and most sacred volcano.",
-    price: "IDR 850,000",
-    image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=80&w=800",
-    featured: false,
-    rating: 4.8,
-    reviews: 86,
-    duration: "1 Day"
+    title: "Half Day Tour",
+    subtitle: "Max 6 Hours",
+    desc: "Maximum 6 hours of sightseeing. Includes petrol, car, and driver. All cars are newest models starting from 2022.",
+    icon: Clock,
+    image: "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&q=80&w=1400",
+    features: ["Petrol included", "Private driver", "Newest car models"],
   },
   {
     id: 3,
-    title: "Temple & Culture Tour",
-    desc: "Immerse in Bali's spiritual heritage visiting Lempuyang, Besakih, and Tirta Empul.",
-    price: "IDR 600,000",
-    image: "https://images.unsplash.com/photo-1537956965359-7573183d1f57?auto=format&fit=crop&q=80&w=800",
-    featured: false,
-    rating: 5.0,
-    reviews: 312,
-    duration: "1 Day"
+    title: "Shuttle Penida Island",
+    subtitle: "Transfer Service",
+    desc: "Transportation only, from hotel to harbour and harbour back to hotel.",
+    icon: Ship,
+    image: "https://images.unsplash.com/photo-1468413253725-0d5181091126?auto=format&fit=crop&q=80&w=1400",
+    features: ["Hotel pickup", "Harbour drop‑off", "Return transfer"],
   },
   {
     id: 4,
-    title: "Beach & Sunset Escapade",
-    desc: "Discover hidden beaches and enjoy an epic sunset dinner in Jimbaran Bay.",
-    price: "IDR 550,000",
-    image: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&q=80&w=800",
-    featured: false,
-    rating: 4.7,
-    reviews: 198,
-    duration: "Full Day"
+    title: "Full Package Penida Island",
+    subtitle: "One Day Trip",
+    desc: "All-inclusive package: transportation, round-trip boat ticket, and private car with driver on Penida Island.",
+    icon: Anchor,
+    image: "https://images.unsplash.com/photo-1537956965359-7573183d1f57?auto=format&fit=crop&q=80&w=1400",
+    features: ["All‑inclusive", "Boat ticket", "Private car on island"],
   },
   {
     id: 5,
-    title: "Ubud Culture & Swing",
-    desc: "Experience the heart of Bali with sprawling rice terraces, local artisans, and the iconic jungle swing.",
-    price: "IDR 650,000",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=800",
-    featured: false,
-    rating: 4.9,
-    reviews: 420,
-    duration: "Full Day"
+    title: "Airport & Hotel Transfer",
+    subtitle: "Check In / Check Out",
+    desc: "Premium service including mineral water and newest car, waiting at the airport or hotel.",
+    icon: Plane,
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1400",
+    features: ["Mineral water", "Newest car", "Meet & greet"],
   },
   {
     id: 6,
-    title: "Nusa Penida Adventure",
-    desc: "Take a fast boat to explore dramatic cliffs, pristine beaches, and swim with manta rays.",
-    price: "IDR 1,100,000",
-    image: "https://images.unsplash.com/photo-1505881502353-a1986add3762?auto=format&fit=crop&q=80&w=800",
-    featured: false,
-    rating: 4.8,
-    reviews: 315,
-    duration: "Full Day"
-  }
+    title: "Wedding Vehicle",
+    subtitle: "Special Occasions",
+    desc: "Private vehicle that can be customised and decorated as per request for wedding occasions.",
+    icon: Heart,
+    image: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=1400",
+    features: ["Custom decoration", "Private vehicle", "Wedding‑ready"],
+  },
+  {
+    id: 7,
+    title: "Rent Car",
+    subtitle: "Self‑Drive",
+    desc: "Self-drive rental with our newest car models.",
+    icon: Car,
+    image: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=1400",
+    features: ["Self‑drive", "Newest models", "Flexible rental"],
+  },
 ]
 
 export default function TourPackages() {
+  const [hoveredId, setHoveredId] = useState<number | null>(null)
+
   return (
-    <section id="tours" className="py-32 bg-[#F5F1E7] text-[#111111]">
+    <section id="tours" className="py-28 md:py-36 bg-[#F5F1E7] text-[#111111] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out">
-          <h2 className="text-[#C28B6A] uppercase tracking-widest text-xs font-bold mb-4">Curated Experiences</h2>
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
+          <h2 className="text-[#C28B6A] uppercase tracking-widest text-xs font-bold mb-4">Our Services</h2>
           <h3 className="font-serif text-4xl md:text-5xl text-[#16425B] leading-tight mb-6">
-            Journeys crafted with passion
+            Tours & Packages
           </h3>
-          <p className="text-[#111]/70">
-            From sacred temples to sun-soaked beaches, discover our signature packages designed to give you an unforgettable Bali experience.
+          <p className="text-[#111]/60 text-base md:text-lg leading-relaxed">
+            From full-day island adventures to airport transfers and wedding rides — everything you need for the perfect Bali experience.
           </p>
         </div>
 
-        {/* Editorial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PACKAGES.map((pkg, i) => (
-            <div 
-              key={pkg.id}
-              className={cn(
-                "group relative bg-white rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-black/5 hover:-translate-y-2 transition-all duration-500 border border-black/5 flex flex-col",
-                pkg.featured ? "md:col-span-2 md:row-span-2" : "md:col-span-1"
-              )}
-            >
-              {/* Image Section */}
-              <div className={cn("relative w-full overflow-hidden", pkg.featured ? "aspect-[16/9] md:aspect-auto md:h-[60%]" : "aspect-[4/3]")}>
-                <Image src={pkg.image} alt={pkg.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                <div className="absolute top-4 left-4 glass px-3 py-1.5 rounded-full flex items-center gap-1">
-                  <Star className="w-3.5 h-3.5 fill-[#C28B6A] text-[#C28B6A]" />
-                  <span className="text-xs font-medium text-white">{pkg.rating} <span className="text-white/80 font-normal">({pkg.reviews})</span></span>
-                </div>
-              </div>
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {SERVICES.map((service) => {
+            const Icon = service.icon
+            const isHovered = hoveredId === service.id
+            return (
+                <div
+                  key={service.id}
+                  className={cn(
+                    "group relative bg-white rounded-3xl overflow-hidden border border-black/5 flex flex-col",
+                    "hover:shadow-2xl hover:shadow-black/8 hover:-translate-y-1.5 transition-all duration-500",
+                    // Make the first and last item span 2 columns on lg to fill the grid without spaces
+                    (service.id === 1 || service.id === 7) && "lg:col-span-2"
+                  )}
+                  onMouseEnter={() => setHoveredId(service.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
+                  {/* Image */}
+                  <div className={cn(
+                    "relative w-full overflow-hidden shrink-0 min-h-[240px]",
+                    (service.id === 1 || service.id === 7) ? "aspect-[16/9]" : "aspect-[4/3]"
+                  )}>
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      sizes={(service.id === 1 || service.id === 7) ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+                    {/* Subtle gradient overlay on image */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
 
-              {/* Content Section */}
-              <div className="p-8 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-[#C28B6A] mb-3 text-xs font-bold uppercase tracking-wider">
-                    <Clock className="w-3.5 h-3.5" />
-                    <span>{pkg.duration}</span>
+                    {/* Duration/subtitle badge */}
+                    <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm shadow-sm">
+                      <Icon className="w-3.5 h-3.5 text-[#C28B6A]" />
+                      <span className="text-xs font-semibold text-[#16425B]">{service.subtitle}</span>
+                    </div>
                   </div>
-                  <h4 className={cn("font-serif text-[#16425B] mb-3", pkg.featured ? "text-3xl" : "text-xl")}>
-                    {pkg.title}
+
+                {/* Content */}
+                <div className="p-6 md:p-7 flex-1 flex flex-col">
+                  <h4 className={cn(
+                    "font-serif text-[#16425B] mb-2 leading-tight",
+                    service.id === 1 ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
+                  )}>
+                    {service.title}
                   </h4>
-                  <p className="text-[#111]/60 text-sm leading-relaxed mb-6">
-                    {pkg.desc}
+                  <p className="text-[#111]/55 text-sm leading-relaxed mb-5 flex-1">
+                    {service.desc}
                   </p>
-                </div>
-                
-                <div className="flex flex-wrap items-end justify-between gap-4 mt-auto">
-                  <div>
-                    <span className="text-xs text-[#111]/50 block mb-1">Starting from</span>
-                    <span className="font-semibold text-lg text-[#16425B]">{pkg.price}</span>
-                    <span className="text-xs text-[#111]/50 ml-1">/ person</span>
+
+                  {/* Feature pills */}
+                  <div className="flex flex-wrap gap-2">
+                    {service.features.map((feat, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 rounded-full text-[11px] font-medium bg-[#F5F1E7] text-[#16425B]/80 border border-[#C28B6A]/15"
+                      >
+                        {feat}
+                      </span>
+                    ))}
                   </div>
-                  
-                  <button className="bg-[#16425B] hover:bg-[#2D4A3E] text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors flex items-center gap-2">
-                    View Details
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
-        
+
+        {/* Contact CTA */}
+        <div className="mt-14 md:mt-20 text-center">
+          <a
+            href="https://wa.me/6281234567890"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#16425B] hover:bg-[#1d5475] text-white font-semibold text-sm transition-all duration-300 hover:shadow-xl hover:shadow-[#16425B]/20 hover:-translate-y-0.5"
+          >
+            Contact Us for Pricing
+            <ChevronRight className="w-4 h-4" />
+          </a>
+          <p className="text-[#111]/40 text-xs mt-4">Prices vary by season and group size. Reach out for a personalized quote.</p>
+        </div>
       </div>
     </section>
   )
