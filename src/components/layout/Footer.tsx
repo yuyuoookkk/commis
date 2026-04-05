@@ -1,8 +1,13 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, Globe, MessageCircle, ArrowRight } from "lucide-react"
+import { Mail, Globe, MessageCircle } from "lucide-react"
+import { useLang } from "@/lib/lang"
 
 export default function Footer() {
+  const { t } = useLang()
+
   return (
     <footer className="bg-[#0a0a0a] text-white/60 py-20 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
@@ -17,56 +22,55 @@ export default function Footer() {
               <span className="font-serif text-lg font-medium tracking-wide">Bintang Bali</span>
             </Link>
             <p className="text-sm max-w-sm">
-              Your Journey • Our Passion. Curated holiday experiences across the Island of the Gods.
+              {t("footer.tagline")}
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">Experiences</h4>
+            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.experiences")}</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="#" className="hover:text-white transition-colors">Temple & Culture tours</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Beach & Sunset Packages</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Mt. Agung Trekking</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Honeymoon Packages</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.templeCulture")}</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.beachSunset")}</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.trekking")}</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.honeymoon")}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">Company</h4>
+            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.company")}</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="#" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Contact</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.about")}</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.contact")}</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.terms")}</Link></li>
+              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.privacy")}</Link></li>
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Contact Info */}
           <div>
-            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">Newsletter</h4>
-            <p className="text-sm mb-4">Subscribe for travel inspiration and exclusive offers.</p>
-            <form className="relative flex items-center">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white focus:outline-none focus:border-[#C28B6A] transition-colors"
-                required
-              />
-              <button 
-                type="submit" 
-                className="absolute right-1 w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-[#C28B6A] group transition-colors"
-              >
-                <ArrowRight className="w-4 h-4 text-black group-hover:text-white transition-colors" />
-              </button>
-            </form>
+            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.company")}</h4>
+            <div className="space-y-4 text-sm">
+              <a href="#" className="flex items-center gap-3 hover:text-white transition-colors">
+                <Mail className="w-4 h-4 text-[#C28B6A] shrink-0" />
+                <span>info@bintangbali.com</span>
+              </a>
+              <a href="#" className="flex items-center gap-3 hover:text-white transition-colors">
+                <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
+                <span>+62 812-3456-7890</span>
+              </a>
+              <a href="#" className="flex items-center gap-3 hover:text-white transition-colors">
+                <Globe className="w-4 h-4 text-white/40 shrink-0" />
+                <span>www.bintangbali.com</span>
+              </a>
+            </div>
           </div>
 
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs">
-            © {new Date().getFullYear()} Bintang Bali Holiday. All rights reserved.
+            © {new Date().getFullYear()} {t("footer.copyright")}
           </p>
           <div className="flex items-center gap-4">
             <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Email">

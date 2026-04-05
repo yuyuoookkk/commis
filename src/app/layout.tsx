@@ -4,6 +4,7 @@ import "./globals.css"
 import SmoothScroll from "@/components/layout/SmoothScroll"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
+import Providers from "@/components/Providers"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,11 +31,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} antialiased`} suppressHydrationWarning>
       <body className="font-sans antialiased bg-[#0d1117] text-white">
-        <SmoothScroll>
-          <Navbar />
-          {children}
-          <Footer />
-        </SmoothScroll>
+        <Providers>
+          <SmoothScroll>
+            <Navbar />
+            {children}
+            <Footer />
+          </SmoothScroll>
+        </Providers>
       </body>
     </html>
   )

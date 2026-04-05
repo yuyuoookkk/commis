@@ -4,40 +4,18 @@ import { useCallback } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useLang } from "@/lib/lang"
 
 const REVIEWS = [
-  {
-    id: 1,
-    name: "Sarah Jenkins",
-    location: "Australia",
-    text: "The Mt. Agung sunrise trek was the most challenging and rewarding experience of my life. The guides were incredibly supportive and knowledgeable. Truly a once-in-a-lifetime journey.",
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    location: "Singapore",
-    text: "Absolutely impeccable service from start to finish. The bespoke honeymoon package was orchestrated flawlessly. They truly understand the art of premium hospitality.",
-    rating: 5,
-  },
-  {
-    id: 3,
-    name: "Emma & James",
-    location: "United Kingdom",
-    text: "We wanted an authentic cultural experience away from the tourist traps. Bintang Bali delivered beyond our expectations with their private temple tours.",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "David Rossi",
-    location: "Italy",
-    text: "An unforgettable adventure! The diving sites they recommended at Nusa Penida were pristine. Highly recommend their bespoke coastal packages.",
-    rating: 4.9,
-  }
+  { id: 1, name: "Sarah Jenkins", location: "Australia", text: "The Mt. Agung sunrise trek was the most challenging and rewarding experience of my life. The guides were incredibly supportive and knowledgeable. Truly a once-in-a-lifetime journey.", rating: 5 },
+  { id: 2, name: "Michael Chen", location: "Singapore", text: "Absolutely impeccable service from start to finish. The bespoke honeymoon package was orchestrated flawlessly. They truly understand the art of premium hospitality.", rating: 5 },
+  { id: 3, name: "Emma & James", location: "United Kingdom", text: "We wanted an authentic cultural experience away from the tourist traps. Bintang Bali delivered beyond our expectations with their private temple tours.", rating: 5 },
+  { id: 4, name: "David Rossi", location: "Italy", text: "An unforgettable adventure! The diving sites they recommended at Nusa Penida were pristine. Highly recommend their bespoke coastal packages.", rating: 4.9 },
 ]
 
 export default function Testimonials() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" })
+  const { t } = useLang()
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev()
@@ -49,15 +27,14 @@ export default function Testimonials() {
 
   return (
     <section id="reviews" className="py-32 bg-[#16425B] relative overflow-hidden">
-      {/* Background flourish */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] aspect-square rounded-full bg-[#2D4A3E]/30 blur-[120px]" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] aspect-square rounded-full bg-[#C28B6A]/20 blur-[120px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
         <div>
-          <h2 className="text-[#C28B6A] uppercase tracking-widest text-xs font-bold mb-4">Traveler Stories</h2>
+          <h2 className="text-[#C28B6A] uppercase tracking-widest text-xs font-bold mb-4">{t("reviews.label")}</h2>
           <h3 className="font-serif text-4xl md:text-5xl text-white leading-tight">
-            Don't just take our word <br className="hidden md:block"/> for it.
+            {t("reviews.heading")}
           </h3>
         </div>
         
@@ -77,7 +54,6 @@ export default function Testimonials() {
         </div>
       </div>
 
-      {/* Embla Carousel */}
       <div className="relative z-10 max-w-[100vw] overflow-hidden" ref={emblaRef}>
         <div className="flex px-4 md:px-[calc((100vw-80rem)/2)]">
           {REVIEWS.map((review) => (
@@ -90,7 +66,7 @@ export default function Testimonials() {
                     ))}
                   </div>
                   <p className="text-white/90 text-sm md:text-base leading-relaxed mb-8 italic">
-                    "{review.text}"
+                    &quot;{review.text}&quot;
                   </p>
                 </div>
                 

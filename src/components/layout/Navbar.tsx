@@ -4,10 +4,12 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { useLang } from "@/lib/lang"
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
+  const { lang, toggle, t } = useLang()
 
   useEffect(() => {
     let lastScrollY = window.scrollY
@@ -48,19 +50,32 @@ export default function Navbar() {
 
       {/* Links - Hidden on Mobile */}
       <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/80">
-        <Link href="#tours" className="hover:text-white transition-colors">Tours & Packages</Link>
-        <Link href="#gallery" className="hover:text-white transition-colors">Moments</Link>
-        <Link href="#how-it-works" className="hover:text-white transition-colors">How it Works</Link>
-        <Link href="#reviews" className="hover:text-white transition-colors">Reviews</Link>
+        <Link href="#tours" className="hover:text-white transition-colors">{t("nav.tours")}</Link>
+        <Link href="#gallery" className="hover:text-white transition-colors">{t("nav.moments")}</Link>
+        <Link href="#how-it-works" className="hover:text-white transition-colors">{t("nav.howItWorks")}</Link>
+        <Link href="#reviews" className="hover:text-white transition-colors">{t("nav.reviews")}</Link>
       </div>
 
-      {/* CTA */}
-      <Link 
-        href="#book"
-        className="bg-white text-black px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-white/90 hover:scale-105 transition-all active:scale-95"
-      >
-        Book Journey
-      </Link>
+      {/* Right actions */}
+      <div className="flex items-center gap-3">
+        {/* Language Toggle */}
+        <button
+          onClick={toggle}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:scale-105 active:scale-95"
+          aria-label="Toggle language"
+        >
+          <span className="text-sm">🌐</span>
+          <span>{lang === "en" ? "ID" : "EN"}</span>
+        </button>
+
+        {/* CTA */}
+        <Link 
+          href="#book"
+          className="bg-white text-black px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-white/90 hover:scale-105 transition-all active:scale-95"
+        >
+          {t("nav.book")}
+        </Link>
+      </div>
     </nav>
   )
 }
