@@ -26,40 +26,41 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Links */}
+          {/* Experiences Links — scroll to Tours section */}
           <div>
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.experiences")}</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.templeCulture")}</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.beachSunset")}</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.trekking")}</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.honeymoon")}</Link></li>
+              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.templeCulture")}</Link></li>
+              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.beachSunset")}</Link></li>
+              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.trekking")}</Link></li>
+              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.honeymoon")}</Link></li>
             </ul>
           </div>
 
+          {/* Company Links — scroll to relevant sections */}
           <div>
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.company")}</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.about")}</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.contact")}</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.terms")}</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">{t("footer.privacy")}</Link></li>
+              <li><Link href="#how-it-works" className="hover:text-white transition-colors">{t("footer.about")}</Link></li>
+              <li><Link href="#book" className="hover:text-white transition-colors">{t("footer.contact")}</Link></li>
+              <li><Link href="#reviews" className="hover:text-white transition-colors">{t("footer.terms")}</Link></li>
+              <li><Link href="#gallery" className="hover:text-white transition-colors">{t("footer.privacy")}</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.company")}</h4>
+            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.contact")}</h4>
             <div className="space-y-4 text-sm">
-              <a href="#" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="mailto:info@bintangbali.com" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Mail className="w-4 h-4 text-[#C28B6A] shrink-0" />
                 <span>info@bintangbali.com</span>
               </a>
-              <a href="#" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="https://wa.me/628123456789" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors">
                 <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
                 <span>+62 812-3456-7890</span>
               </a>
-              <a href="#" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="https://bintangbaliholiday.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Globe className="w-4 h-4 text-white/40 shrink-0" />
                 <span>bintangbaliholiday.com</span>
               </a>
@@ -73,13 +74,13 @@ export default function Footer() {
             © {new Date().getFullYear()} {t("footer.copyright")}
           </p>
           <div className="flex items-center gap-4">
-            <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Email">
+            <a href="mailto:info@bintangbali.com" className="text-white/60 hover:text-white transition-colors" aria-label="Email">
               <Mail className="w-5 h-5" />
             </a>
-            <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Website">
+            <a href="https://bintangbaliholiday.com" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" aria-label="Website">
               <Globe className="w-5 h-5" />
             </a>
-            <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Message">
+            <a href="https://wa.me/628123456789" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" aria-label="WhatsApp">
               <MessageCircle className="w-5 h-5" />
             </a>
           </div>
