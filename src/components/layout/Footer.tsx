@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className="bg-[#0a0a0a] text-white/60 py-20 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
-          
+
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-3 mb-6 text-white group">
@@ -61,7 +61,7 @@ export default function Footer() {
               </a>
               <a href="#" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Globe className="w-4 h-4 text-white/40 shrink-0" />
-                <span>www.bintangbali.com</span>
+                <span>bintangbaliholiday.com</span>
               </a>
             </div>
           </div>
