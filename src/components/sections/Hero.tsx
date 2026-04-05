@@ -43,12 +43,9 @@ const AVATARS = [
 export default function Hero() {
   const [activeIndex, setActiveIndex] = useState(0)
   const headlineRef = useRef<HTMLDivElement>(null)
+  const [showTapHint, setShowTapHint] = useState(true)
   
-  const handleCardClick = (index: number) => {
-    if (index === activeIndex) return
-    setActiveIndex(index)
-    
-    // Animate text change
+  const animateText = () => {
     if (headlineRef.current) {
       gsap.fromTo(headlineRef.current, 
         { opacity: 0, y: 20 },
@@ -57,8 +54,37 @@ export default function Hero() {
     }
   }
 
+  const handleCardClick = (index: number) => {
+    if (index === activeIndex) return
+    setActiveIndex(index)
+    animateText()
+  }
+
+  // Mobile tap handler — cycles to the next background
+  const handleMobileTap = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Only on mobile/tablet (below xl = 1280px)
+    if (window.innerWidth >= 1280) return
+    
+    // Don't trigger if user tapped on a card, button, or link
+    const target = e.target as HTMLElement
+    if (target.closest("button") || target.closest("a") || target.closest("[data-no-cycle]")) return
+
+    setActiveIndex((prev) => (prev + 1) % TOURS.length)
+    animateText()
+    setShowTapHint(false)
+  }
+
+  // Hide tap hint after first auto-cycle or timeout
+  useEffect(() => {
+    const timer = setTimeout(() => setShowTapHint(false), 5000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <section className="relative w-full h-[100svh] min-h-[700px] overflow-hidden flex items-center bg-black">
+    <section
+      className="relative w-full h-[100svh] min-h-[700px] overflow-hidden flex items-center bg-black cursor-pointer xl:cursor-default"
+      onClick={handleMobileTap}
+    >
       {/* Background Images Crossfade */}
       {TOURS.map((tour, index) => (
         <Image
@@ -75,6 +101,37 @@ export default function Hero() {
         />
       ))}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 xl:bg-gradient-to-r xl:from-black/80 xl:to-transparent" />
+
+      {/* Mobile Tap Hint */}
+      <div
+        className={cn(
+          "absolute bottom-36 left-1/2 -translate-x-1/2 z-20 xl:hidden transition-all duration-700",
+          showTapHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+        )}
+      >
+        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 animate-pulse">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-300">
+            <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
+            <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
+            <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
+            <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+          </svg>
+          <span className="text-xs font-medium text-white/90 tracking-wide">Tap to explore</span>
+        </div>
+      </div>
+
+      {/* Slide Indicators (Mobile) */}
+      <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 xl:hidden flex gap-2">
+        {TOURS.map((_, index) => (
+          <div
+            key={index}
+            className={cn(
+              "h-1.5 rounded-full transition-all duration-500",
+              index === activeIndex ? "w-8 bg-orange-400" : "w-1.5 bg-white/40"
+            )}
+          />
+        ))}
+      </div>
 
       {/* Main Content Layout */}
       <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 pt-32 pb-12 flex flex-col xl:flex-row xl:items-center justify-between gap-12">
@@ -97,7 +154,7 @@ export default function Hero() {
           </p>
 
           {/* Social Proof Card (Glass) */}
-          <div className="glass p-5 rounded-3xl inline-flex flex-col sm:flex-row items-start sm:items-center gap-6 w-fit hover:-translate-y-1 transition-transform duration-300">
+          <div className="glass p-5 rounded-3xl inline-flex flex-col sm:flex-row items-start sm:items-center gap-6 w-fit hover:-translate-y-1 transition-transform duration-300" data-no-cycle>
             <div className="flex -space-x-3">
               {AVATARS.map((avatar, i) => (
                 <div key={i} className="w-10 h-10 rounded-full border-2 border-[#1a1a1a] overflow-hidden relative">
@@ -116,7 +173,7 @@ export default function Hero() {
         </div>
 
         {/* Right: Tour Highlight Slider */}
-        <div className="w-full xl:w-80 flex xl:flex-col gap-4 overflow-x-auto xl:overflow-visible pb-6 xl:pb-0 scrollbar-hide snap-x relative z-20">
+        <div className="w-full xl:w-80 flex xl:flex-col gap-4 overflow-x-auto xl:overflow-visible pb-6 xl:pb-0 scrollbar-hide snap-x relative z-20" data-no-cycle>
           <p className="hidden xl:block text-white/50 text-xs font-semibold uppercase tracking-widest pl-2 mb-2">Explore Destinations</p>
           
           {TOURS.map((tour, index) => {
