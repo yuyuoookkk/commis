@@ -82,7 +82,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative w-full h-[100svh] min-h-[700px] overflow-hidden flex items-center bg-black cursor-pointer xl:cursor-default"
+      className="relative w-full h-[100svh] min-h-[600px] overflow-hidden flex items-center bg-black cursor-pointer xl:cursor-default"
       onClick={handleMobileTap}
     >
       {/* Background Images Crossfade */}
@@ -102,10 +102,10 @@ export default function Hero() {
       ))}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 xl:bg-gradient-to-r xl:from-black/80 xl:to-transparent" />
 
-      {/* Mobile Tap Hint */}
+      {/* Mobile Tap Hint — positioned above slide indicators */}
       <div
         className={cn(
-          "absolute bottom-36 left-1/2 -translate-x-1/2 z-20 xl:hidden transition-all duration-700",
+          "absolute bottom-20 left-1/2 -translate-x-1/2 z-30 xl:hidden transition-all duration-700",
           showTapHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
         )}
       >
@@ -120,8 +120,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Slide Indicators (Mobile) */}
-      <div className="absolute bottom-28 left-1/2 -translate-x-1/2 z-20 xl:hidden flex gap-2">
+      {/* Slide Indicators (Mobile) — pinned to bottom */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 xl:hidden flex items-center gap-2">
         {TOURS.map((_, index) => (
           <div
             key={index}
@@ -134,47 +134,44 @@ export default function Hero() {
       </div>
 
       {/* Main Content Layout */}
-      <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 pt-32 pb-12 flex flex-col xl:flex-row xl:items-center justify-between gap-12">
+      <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 pt-28 pb-20 xl:pb-12 flex flex-col xl:flex-row xl:items-center justify-center xl:justify-between gap-8 xl:gap-12">
         
         {/* Left: Headline & Social Proof */}
-        <div className="flex-1 flex flex-col justify-center max-w-2xl mt-12 xl:mt-0" ref={headlineRef}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md mb-6 w-fit">
+        <div className="flex-1 flex flex-col justify-center max-w-2xl" ref={headlineRef}>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md mb-5 w-fit">
             <MapPin className="w-4 h-4 text-orange-300" />
             <span className="text-xs font-semibold uppercase tracking-wider text-white/90">
               {TOURS[activeIndex].category}
             </span>
           </div>
           
-          <h1 className="font-serif text-5xl md:text-7xl xl:text-8xl text-white leading-[1.1] mb-6">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl xl:text-8xl text-white leading-[1.1] mb-4 md:mb-6">
             {TOURS[activeIndex].headline}
           </h1>
           
-          <p className="text-lg md:text-xl text-white/80 max-w-md font-light mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-md font-light mb-8 md:mb-10 leading-relaxed">
             {TOURS[activeIndex].subhead}
           </p>
 
-          {/* Social Proof Card (Glass) */}
-          <div className="glass p-5 rounded-3xl inline-flex flex-col sm:flex-row items-start sm:items-center gap-6 w-fit hover:-translate-y-1 transition-transform duration-300" data-no-cycle>
+          {/* Social Proof Card (Glass) — compact on mobile */}
+          <div className="glass p-4 sm:p-5 rounded-2xl sm:rounded-3xl inline-flex items-center gap-4 sm:gap-6 w-fit" data-no-cycle>
             <div className="flex -space-x-3">
               {AVATARS.map((avatar, i) => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-[#1a1a1a] overflow-hidden relative">
+                <div key={i} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-[#1a1a1a] overflow-hidden relative">
                   <Image src={avatar} alt="Traveler" fill sizes="40px" className="object-cover" />
                 </div>
               ))}
             </div>
             <div>
-              <p className="text-white font-semibold text-sm">2,500+ happy travelers</p>
-              <p className="text-white/60 text-xs mt-0.5">Explore Bali's finest with us</p>
+              <p className="text-white font-semibold text-xs sm:text-sm">2,500+ happy travelers</p>
+              <p className="text-white/60 text-[10px] sm:text-xs mt-0.5">Explore Bali&apos;s finest with us</p>
             </div>
-            <button className="bg-white/10 hover:bg-white/20 ml-auto sm:ml-4 border border-white/20 rounded-full p-2.5 transition-colors">
-              <ArrowRight className="w-5 h-5 text-white" />
-            </button>
           </div>
         </div>
 
-        {/* Right: Tour Highlight Slider */}
-        <div className="w-full xl:w-80 flex xl:flex-col gap-4 overflow-x-auto xl:overflow-visible pb-6 xl:pb-0 scrollbar-hide snap-x relative z-20" data-no-cycle>
-          <p className="hidden xl:block text-white/50 text-xs font-semibold uppercase tracking-widest pl-2 mb-2">Explore Destinations</p>
+        {/* Right: Tour Highlight Slider — hidden on mobile, visible on xl */}
+        <div className="hidden xl:flex xl:w-80 xl:flex-col gap-4 xl:overflow-visible relative z-20" data-no-cycle>
+          <p className="text-white/50 text-xs font-semibold uppercase tracking-widest pl-2 mb-2">Explore Destinations</p>
           
           {TOURS.map((tour, index) => {
             const isActive = index === activeIndex;
@@ -184,11 +181,11 @@ export default function Hero() {
                 onClick={() => handleCardClick(index)}
                 className={cn(
                   "relative shrink-0 snap-start rounded-2xl overflow-hidden group transition-all duration-500",
-                  "w-[260px] h-[140px] xl:w-full xl:h-32",
-                  isActive ? "ring-2 ring-white scale-102 xl:scale-105" : "hover:bg-white/10 xl:hover:scale-105 opacity-60 hover:opacity-100"
+                  "w-full h-32",
+                  isActive ? "ring-2 ring-white scale-105" : "hover:bg-white/10 hover:scale-105 opacity-60 hover:opacity-100"
                 )}
               >
-                <Image src={tour.image} alt={tour.title} fill sizes="(max-width: 1280px) 260px, 320px" className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                <Image src={tour.image} alt={tour.title} fill sizes="320px" className="object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className={cn("absolute inset-0 transition-colors duration-300", isActive ? "bg-black/20" : "bg-black/50 group-hover:bg-black/30")} />
                 
                 <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col items-start">
