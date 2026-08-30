@@ -65,7 +65,7 @@ export default function Navbar() {
         <div className="relative w-8 h-8 sm:w-10 sm:h-10 overflow-hidden group-hover:scale-105 transition-transform shrink-0">
           <Image src="/image.png" alt="Violet Bali Driver Logo" fill sizes="40px" className="object-contain" priority />
         </div>
-        <span className="font-serif text-base sm:text-lg font-medium tracking-wide text-white">Violet Bali Driver</span>
+        <span className="hidden sm:inline-block font-serif text-base sm:text-lg font-medium tracking-wide text-white">Violet Bali Driver</span>
       </Link>
 
       {/* Links - Hidden on Mobile */}
