@@ -19,7 +19,7 @@ interface ListingItem {
 const transfers: ListingItem[] = [
   { route: "Airport → Kuta / Legian", price: "200k", type: "transfer" },
   { route: "Airport → Umalas / Kerobokan / Seminyak", price: "300k", type: "transfer" },
-  { route: "Airport → Canggu", price: "350–400k", type: "transfer" },
+  { route: "Airport → Canggu", price: "400k", type: "transfer" },
   { route: "Airport → Ubud", price: "400k", type: "transfer" },
   { route: "Airport → Kintamani", price: "600k", type: "transfer" },
   { route: "Airport → Lovina", price: "700k", type: "transfer" },

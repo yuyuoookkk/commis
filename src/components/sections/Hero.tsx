@@ -45,10 +45,8 @@ export default function Hero() {
           fill
           sizes="100vw"
           priority
-          className="object-cover opacity-30 mix-blend-overlay grayscale-[30%]"
+          className="object-cover brightness-[0.6]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/90 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/40" />
       </div>
 
       {/* Main Content */}
