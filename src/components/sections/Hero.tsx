@@ -40,15 +40,15 @@ export default function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2940&auto=format&fit=crop"
-          alt="Luxury driver in Bali"
+          src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2938&auto=format&fit=crop"
+          alt="Balinese Temple Gateway"
           fill
           sizes="100vw"
           priority
-          className="object-cover opacity-50 mix-blend-overlay"
+          className="object-cover opacity-30 mix-blend-overlay grayscale-[30%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/90 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/40" />
       </div>
 
       {/* Main Content */}
