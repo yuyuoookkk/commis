@@ -19,8 +19,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata = {
-  title: "Bintang Bali Holiday | Your Journey • Our Passion",
-  description: "A Bali-based travel agency offering curated holiday experiences across the Island of the Gods.",
+  title: "Violet Bali Driver | Your Journey • Our Passion",
+  description: "Premium private driver services in Bali. Explore the Island of the Gods in comfort and style.",
 }
 
 export default function RootLayout({

@@ -17,23 +17,23 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-3 mb-6 text-white group">
               <div className="relative w-10 h-10 overflow-hidden group-hover:scale-105 transition-transform shrink-0">
-                <Image src="/image.png" alt="Bintang Bali Logo" fill sizes="40px" className="object-contain" priority />
+                <Image src="/image.png" alt="Violet Bali Driver Logo" fill sizes="40px" className="object-contain" priority />
               </div>
-              <span className="font-serif text-lg font-medium tracking-wide">Bintang Bali</span>
+              <span className="font-serif text-lg font-medium tracking-wide">Violet Bali Driver</span>
             </Link>
             <p className="text-sm max-w-sm">
               {t("footer.tagline")}
             </p>
           </div>
 
-          {/* Experiences Links — scroll to Tours section */}
+          {/* Listings Links */}
           <div>
-            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.experiences")}</h4>
+            <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">Popular Routes</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.templeCulture")}</Link></li>
-              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.beachSunset")}</Link></li>
-              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.trekking")}</Link></li>
-              <li><Link href="#tours" className="hover:text-white transition-colors">{t("footer.honeymoon")}</Link></li>
+              <li><Link href="#pricing" className="hover:text-white transition-colors">Airport → Seminyak / Canggu</Link></li>
+              <li><Link href="#pricing" className="hover:text-white transition-colors">Airport → Ubud</Link></li>
+              <li><Link href="#pricing" className="hover:text-white transition-colors">Kuta / Uluwatu Tour</Link></li>
+              <li><Link href="#pricing" className="hover:text-white transition-colors">Kuta → Kintamani Tour</Link></li>
             </ul>
           </div>
 
@@ -43,8 +43,6 @@ export default function Footer() {
             <ul className="space-y-4 text-sm">
               <li><Link href="#how-it-works" className="hover:text-white transition-colors">{t("footer.about")}</Link></li>
               <li><Link href="#book" className="hover:text-white transition-colors">{t("footer.contact")}</Link></li>
-              <li><Link href="#reviews" className="hover:text-white transition-colors">{t("footer.terms")}</Link></li>
-              <li><Link href="#gallery" className="hover:text-white transition-colors">{t("footer.privacy")}</Link></li>
             </ul>
           </div>
 
@@ -52,17 +50,17 @@ export default function Footer() {
           <div>
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-6">{t("footer.contact")}</h4>
             <div className="space-y-4 text-sm">
-              <a href="mailto:info@bintangbali.com" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="mailto:donitamba094@gmail.com" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Mail className="w-4 h-4 text-[#C28B6A] shrink-0" />
-                <span>info@bintangbali.com</span>
+                <span>donitamba094@gmail.com</span>
               </a>
-              <a href="https://wa.me/628123456789" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="https://wa.me/62881037512641" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors">
                 <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
-                <span>+62 812-3456-7890</span>
+                <span>+62 881-0375-12641</span>
               </a>
-              <a href="https://bintangbaliholiday.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors">
+              <a href="https://violetbalidriver.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Globe className="w-4 h-4 text-white/40 shrink-0" />
-                <span>bintangbaliholiday.com</span>
+                <span>violetbalidriver.com</span>
               </a>
             </div>
           </div>
@@ -74,13 +72,13 @@ export default function Footer() {
             © {new Date().getFullYear()} {t("footer.copyright")}
           </p>
           <div className="flex items-center gap-4">
-            <a href="mailto:info@bintangbali.com" className="text-white/60 hover:text-white transition-colors" aria-label="Email">
+            <a href="mailto:donitamba094@gmail.com" className="text-white/60 hover:text-white transition-colors" aria-label="Email">
               <Mail className="w-5 h-5" />
             </a>
-            <a href="https://bintangbaliholiday.com" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" aria-label="Website">
+            <a href="https://violetbalidriver.com" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" aria-label="Website">
               <Globe className="w-5 h-5" />
             </a>
-            <a href="https://wa.me/628123456789" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" aria-label="WhatsApp">
+            <a href="https://wa.me/62881037512641" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" aria-label="WhatsApp">
               <MessageCircle className="w-5 h-5" />
             </a>
           </div>

@@ -138,7 +138,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "footer.newsletter": { en: "Newsletter", id: "Buletin" },
   "footer.subscribe": { en: "Subscribe for travel inspiration and exclusive offers.", id: "Berlangganan untuk inspirasi perjalanan dan penawaran eksklusif." },
   "footer.emailPlaceholder": { en: "Enter your email", id: "Masukkan email Anda" },
-  "footer.copyright": { en: "Bintang Bali Holiday. All rights reserved.", id: "Bintang Bali Holiday. Hak cipta dilindungi." },
+  "footer.copyright": { en: "Violet Bali Driver. All rights reserved.", id: "Violet Bali Driver. Hak cipta dilindungi." },
 }
 
 const LangContext = createContext<LangContextType | null>(null)

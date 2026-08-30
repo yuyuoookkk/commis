@@ -1,174 +1,88 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useRef, useEffect } from "react"
 import Image from "next/image"
 import { gsap } from "gsap"
-import { cn } from "@/lib/utils"
-import { ArrowRight, MapPin } from "lucide-react"
-import { useLang } from "@/lib/lang"
-
-const TOUR_KEYS = [
-  { id: 1, title: "Mt. Batur Sunrise", categoryKey: "hero.tour1.category", image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=80&w=2940", headlineKey: "hero.tour1.headline", subheadKey: "hero.tour1.subhead" },
-  { id: 2, title: "Uluwatu Cliff Edge", categoryKey: "hero.tour2.category", image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=2940", headlineKey: "hero.tour2.headline", subheadKey: "hero.tour2.subhead" },
-  { id: 3, title: "Nusa Penida Coast", categoryKey: "hero.tour3.category", image: "https://images.unsplash.com/photo-1537956965359-7573183d1f57?auto=format&fit=crop&q=80&w=2940", headlineKey: "hero.tour3.headline", subheadKey: "hero.tour3.subhead" },
-]
-
-const AVATARS = [
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150&h=150",
-  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150"
-]
+import { ArrowRight, Car } from "lucide-react"
+import ContactDropdown from "@/components/ui/ContactDropdown"
 
 export default function Hero() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const headlineRef = useRef<HTMLDivElement>(null)
-  const [showTapHint, setShowTapHint] = useState(true)
-  const { t } = useLang()
+  const heroRef = useRef<HTMLDivElement>(null)
   
-  const animateText = () => {
-    if (headlineRef.current) {
-      gsap.fromTo(headlineRef.current, 
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
-      )
-    }
-  }
-
-  const handleCardClick = (index: number) => {
-    if (index === activeIndex) return
-    setActiveIndex(index)
-    animateText()
-  }
-
-  const handleMobileTap = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (window.innerWidth >= 1280) return
-    const target = e.target as HTMLElement
-    if (target.closest("button") || target.closest("a") || target.closest("[data-no-cycle]")) return
-    setActiveIndex((prev) => (prev + 1) % TOUR_KEYS.length)
-    animateText()
-    setShowTapHint(false)
-  }
-
   useEffect(() => {
-    const timer = setTimeout(() => setShowTapHint(false), 5000)
-    return () => clearTimeout(timer)
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.hero-badge', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: "power3.out" }
+      )
+      
+      gsap.fromTo('.hero-title', 
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.4, ease: "power3.out" }
+      )
+      
+      gsap.fromTo('.hero-desc', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.7, ease: "power3.out" }
+      )
+      
+      gsap.fromTo('.hero-cta', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.9, ease: "power3.out" }
+      )
+    }, heroRef)
+    
+    return () => ctx.revert()
   }, [])
 
-  const activeTour = TOUR_KEYS[activeIndex]
-
   return (
-    <section
-      className="relative w-full h-[100svh] min-h-[600px] overflow-hidden flex items-center bg-black cursor-pointer xl:cursor-default"
-      onClick={handleMobileTap}
-    >
-      {TOUR_KEYS.map((tour, index) => (
+    <section ref={heroRef} className="relative w-full h-[100svh] min-h-[600px] overflow-hidden flex items-center bg-dark-surface">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
         <Image
-          key={tour.id}
-          src={tour.image}
-          alt={tour.title}
+          src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2940&auto=format&fit=crop"
+          alt="Luxury driver in Bali"
           fill
           sizes="100vw"
-          priority={index === 0}
-          className={cn(
-            "object-cover transition-opacity duration-1000 ease-in-out",
-            index === activeIndex ? "opacity-60" : "opacity-0"
-          )}
+          priority
+          className="object-cover opacity-50 mix-blend-overlay"
         />
-      ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 xl:bg-gradient-to-r xl:from-black/80 xl:to-transparent" />
-
-      {/* Mobile Tap Hint */}
-      <div
-        className={cn(
-          "absolute bottom-20 left-1/2 -translate-x-1/2 z-30 xl:hidden transition-all duration-700",
-          showTapHint ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
-        )}
-      >
-        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 animate-pulse">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-300">
-            <path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2" />
-            <path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2" />
-            <path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8" />
-            <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
-          </svg>
-          <span className="text-xs font-medium text-white/90 tracking-wide">{t("hero.tapToExplore")}</span>
-        </div>
-      </div>
-
-      {/* Slide Indicators (Mobile) */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 xl:hidden flex items-center gap-2">
-        {TOUR_KEYS.map((_, index) => (
-          <div
-            key={index}
-            className={cn(
-              "h-1.5 rounded-full transition-all duration-500",
-              index === activeIndex ? "w-8 bg-orange-400" : "w-1.5 bg-white/40"
-            )}
-          />
-        ))}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 pt-28 pb-20 xl:pb-12 flex flex-col xl:flex-row xl:items-center justify-center xl:justify-between gap-8 xl:gap-12">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 xl:px-12 flex flex-col justify-center pt-20">
         
-        <div className="flex-1 flex flex-col justify-center max-w-2xl" ref={headlineRef}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md mb-5 w-fit">
-            <MapPin className="w-4 h-4 text-orange-300" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-white/90">
-              {t(activeTour.categoryKey)}
+        <div className="flex-1 flex flex-col justify-center max-w-3xl">
+          <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-luxury-gold/30 bg-luxury-gold/5 backdrop-blur-md mb-6 w-fit">
+            <Car className="w-4 h-4 text-luxury-gold" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-luxury-gold">
+              Premium Private Drivers
             </span>
           </div>
           
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl xl:text-8xl text-white leading-[1.1] mb-4 md:mb-6">
-            {t(activeTour.headlineKey)}
+          <h1 className="hero-title font-serif text-5xl md:text-7xl xl:text-8xl text-white leading-[1.1] mb-6 tracking-tight">
+            Explore Bali <br/>
+            <span className="text-luxury-gold italic font-light">Your Way</span>
           </h1>
           
-          <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-md font-light mb-8 md:mb-10 leading-relaxed">
-            {t(activeTour.subheadKey)}
+          <p className="hero-desc text-lg md:text-xl text-gray-300 max-w-xl font-light mb-10 leading-relaxed">
+            Experience the ultimate freedom and comfort. Hire a professional private driver and discover the hidden gems of Bali at your own pace.
           </p>
 
-          <div className="glass p-4 sm:p-5 rounded-2xl sm:rounded-3xl inline-flex items-center gap-4 sm:gap-6 w-fit" data-no-cycle>
-            <div className="flex -space-x-3">
-              {AVATARS.map((avatar, i) => (
-                <div key={i} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-[#1a1a1a] overflow-hidden relative">
-                  <Image src={avatar} alt="Traveler" fill sizes="40px" className="object-cover" />
-                </div>
-              ))}
-            </div>
-            <div>
-              <p className="text-white font-semibold text-xs sm:text-sm">{t("hero.travelers")}</p>
-              <p className="text-white/60 text-[10px] sm:text-xs mt-0.5">{t("hero.exploreBali")}</p>
-            </div>
+          <div className="hero-cta flex flex-col sm:flex-row gap-4 w-fit">
+            <a
+              href="#pricing"
+              className="bg-luxury-gold text-dark-surface px-8 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-luxury-gold-hover hover:scale-105 transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+            >
+              View Pricing <ArrowRight className="w-5 h-5" />
+            </a>
+            <ContactDropdown
+              label="Contact Us"
+              variant="outline"
+            />
           </div>
-        </div>
-
-        {/* Desktop Tour Cards */}
-        <div className="hidden xl:flex xl:w-80 xl:flex-col gap-4 xl:overflow-visible relative z-20" data-no-cycle>
-          <p className="text-white/50 text-xs font-semibold uppercase tracking-widest pl-2 mb-2">{t("hero.exploreDestinations")}</p>
-          
-          {TOUR_KEYS.map((tour, index) => {
-            const isActive = index === activeIndex;
-            return (
-              <button
-                key={tour.id}
-                onClick={() => handleCardClick(index)}
-                className={cn(
-                  "relative shrink-0 snap-start rounded-2xl overflow-hidden group transition-all duration-500",
-                  "w-full h-32",
-                  isActive ? "ring-2 ring-white scale-105" : "hover:bg-white/10 hover:scale-105 opacity-60 hover:opacity-100"
-                )}
-              >
-                <Image src={tour.image} alt={tour.title} fill sizes="320px" className="object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className={cn("absolute inset-0 transition-colors duration-300", isActive ? "bg-black/20" : "bg-black/50 group-hover:bg-black/30")} />
-                
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex flex-col items-start">
-                  <h3 className="text-white font-medium text-lg leading-tight text-left">{tour.title}</h3>
-                  <p className="text-white/70 text-xs mt-1 text-left">{t(tour.categoryKey)}</p>
-                </div>
-              </button>
-            )
-          })}
         </div>
       </div>
     </section>

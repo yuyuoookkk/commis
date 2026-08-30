@@ -4,24 +4,19 @@
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
   
-  --color-bali-sand: #F5F1E7;
-  --color-bali-terra: #C28B6A;
-  --color-bali-ocean: #16425B;
-  --color-bali-forest: #2D4A3E;
+  --color-luxury-gold: #D4AF37;
+  --color-luxury-gold-hover: #F3E5AB;
+  --color-dark-surface: #0a0a0a;
+  --color-dark-elevated: #1a1a1a;
   --color-overlay: rgba(255, 255, 255, 0.05);
 }
 
 :root {
-  --background: #fafafa;
-  --foreground: #111111;
+  --background: #050505;
+  --foreground: #f8f8f8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0d1117;
-    --foreground: #f0f6fc;
-  }
-}
+
 
 body {
   background-color: var(--background);
@@ -30,6 +25,11 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button, a {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 /* Glassmorphism Utilities */

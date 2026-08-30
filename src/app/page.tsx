@@ -1,16 +1,16 @@
 import Hero from "@/components/sections/Hero"
-import FeaturedMoments from "@/components/sections/FeaturedMoments"
-import TourPackages from "@/components/sections/TourPackages"
+import Pricing from "@/components/sections/Pricing"
+import PhotoTestimonials from "@/components/sections/PhotoTestimonials"
 import HowItWorks from "@/components/sections/HowItWorks"
 import Testimonials from "@/components/sections/Testimonials"
 import FinalCTA from "@/components/sections/FinalCTA"
 
 export default function Home() {
   return (
-    <main className="w-full relative">
+    <main className="w-full relative bg-dark-surface text-white">
       <Hero />
-      <FeaturedMoments />
-      <TourPackages />
+      <Pricing />
+      <PhotoTestimonials />
       <HowItWorks />
       <Testimonials />
       <FinalCTA />

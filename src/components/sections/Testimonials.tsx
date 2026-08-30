@@ -1,78 +1,89 @@
 "use client"
 
-import { useCallback } from "react"
-import useEmblaCarousel from "embla-carousel-react"
-import { ChevronLeft, ChevronRight, Star } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useLang } from "@/lib/lang"
+import { useRef } from "react"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Quote, Star } from "lucide-react"
 
-const REVIEWS = [
-  { id: 1, name: "Sarah Jenkins", location: "Australia", text: "The Mt. Agung sunrise trek was the most challenging and rewarding experience of my life. The guides were incredibly supportive and knowledgeable. Truly a once-in-a-lifetime journey.", rating: 5 },
-  { id: 2, name: "Michael Chen", location: "Singapore", text: "Absolutely impeccable service from start to finish. The bespoke honeymoon package was orchestrated flawlessly. They truly understand the art of premium hospitality.", rating: 5 },
-  { id: 3, name: "Emma & James", location: "United Kingdom", text: "We wanted an authentic cultural experience away from the tourist traps. Bintang Bali delivered beyond our expectations with their private temple tours.", rating: 5 },
-  { id: 4, name: "David Rossi", location: "Italy", text: "An unforgettable adventure! The diving sites they recommended at Nusa Penida were pristine. Highly recommend their bespoke coastal packages.", rating: 4.9 },
+gsap.registerPlugin(ScrollTrigger)
+
+const testimonials = [
+  {
+    name: "Sarah Jenkins",
+    role: "Family Traveler",
+    text: "Having a private driver made our Bali trip completely stress-free. The van was always immaculate, and Wayan knew all the best spots to avoid the crowds.",
+    rating: 5
+  },
+  {
+    name: "Michael Chen",
+    role: "Honeymooner",
+    text: "Exceptional service from start to finish. Our driver was punctual, incredibly polite, and gave us fantastic restaurant recommendations in Seminyak.",
+    rating: 5
+  },
+  {
+    name: "Emma Watson",
+    role: "Solo Explorer",
+    text: "I felt so safe and well taken care of. Being able to customize my itinerary on the fly for a 3-day trip was exactly what I needed. Highly recommend!",
+    rating: 5
+  }
 ]
 
 export default function Testimonials() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" })
-  const { t } = useLang()
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev()
-  }, [emblaApi])
+  useGSAP(() => {
+    gsap.fromTo('.test-header',
+      { y: 30, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: 0.8,
+        scrollTrigger: { trigger: containerRef.current, start: "top 80%" }
+      }
+    )
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext()
-  }, [emblaApi])
+    gsap.fromTo('.test-card',
+      { y: 40, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power2.out",
+        scrollTrigger: { trigger: containerRef.current, start: "top 70%" }
+      }
+    )
+  }, { scope: containerRef })
 
   return (
-    <section id="reviews" className="py-32 bg-[#16425B] relative overflow-hidden">
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] aspect-square rounded-full bg-[#2D4A3E]/30 blur-[120px]" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] aspect-square rounded-full bg-[#C28B6A]/20 blur-[120px]" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-        <div>
-          <h2 className="text-[#C28B6A] uppercase tracking-widest text-xs font-bold mb-4">{t("reviews.label")}</h2>
-          <h3 className="font-serif text-4xl md:text-5xl text-white leading-tight">
-            {t("reviews.heading")}
-          </h3>
+    <section id="reviews" ref={containerRef} className="py-24 px-6 md:px-12 lg:px-24 bg-dark-elevated relative overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="test-header text-center mb-16 max-w-2xl mx-auto">
+          <span className="text-luxury-gold font-medium tracking-wider uppercase text-sm mb-4 block">
+            Client Experiences
+          </span>
+          <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
+            What They Say
+          </h2>
         </div>
-        
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={scrollPrev}
-            className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5 text-white" />
-          </button>
-          <button 
-            onClick={scrollNext}
-            className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors"
-          >
-            <ChevronRight className="w-5 h-5 text-white" />
-          </button>
-        </div>
-      </div>
 
-      <div className="relative z-10 max-w-[100vw] overflow-hidden" ref={emblaRef}>
-        <div className="flex px-4 md:px-[calc((100vw-80rem)/2)]">
-          {REVIEWS.map((review) => (
-            <div key={review.id} className="flex-[0_0_85%] md:flex-[0_0_400px] min-w-0 pl-6">
-              <div className="glass-dark h-full p-8 rounded-[2rem] flex flex-col justify-between hover:-translate-y-2 transition-transform duration-500">
-                <div>
-                  <div className="flex items-center gap-1 mb-6">
-                    {[...Array(Math.floor(review.rating))].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#C28B6A] text-[#C28B6A]" />
-                    ))}
-                  </div>
-                  <p className="text-white/90 text-sm md:text-base leading-relaxed mb-8 italic">
-                    &quot;{review.text}&quot;
-                  </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map((test, index) => (
+            <div key={index} className="test-card glass-dark p-8 rounded-2xl relative border border-white/5 hover:border-luxury-gold/20 transition-colors">
+              <Quote className="absolute top-6 right-6 w-12 h-12 text-luxury-gold/10" />
+              
+              <div className="flex gap-1 mb-6">
+                {[...Array(test.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-luxury-gold text-luxury-gold" />
+                ))}
+              </div>
+              
+              <p className="text-gray-300 text-base leading-relaxed mb-8 relative z-10 italic">
+                "{test.text}"
+              </p>
+              
+              <div className="flex items-center gap-4 mt-auto">
+                <div className="w-12 h-12 rounded-full bg-luxury-gold/20 flex items-center justify-center font-serif text-luxury-gold text-xl border border-luxury-gold/30">
+                  {test.name.charAt(0)}
                 </div>
-                
                 <div>
-                  <h4 className="text-white font-medium text-lg font-serif">{review.name}</h4>
-                  <p className="text-white/50 text-xs uppercase tracking-wider">{review.location}</p>
+                  <h4 className="text-white font-medium">{test.name}</h4>
+                  <p className="text-gray-500 text-sm">{test.role}</p>
                 </div>
               </div>
             </div>
