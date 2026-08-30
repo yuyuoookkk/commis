@@ -65,7 +65,7 @@ export default function Navbar() {
         <div className="relative w-8 h-8 sm:w-10 sm:h-10 overflow-hidden group-hover:scale-105 transition-transform shrink-0">
           <Image src="/image.png" alt="Violet Bali Driver Logo" fill sizes="40px" className="object-contain" priority />
         </div>
-        <span className="hidden sm:inline-block font-serif text-base sm:text-lg font-medium tracking-wide text-white">Violet Bali Driver</span>
+        <span className="font-serif text-base sm:text-lg font-medium tracking-wide text-white">Violet Bali Driver</span>
       </Link>
 
       {/* Links - Hidden on Mobile */}
@@ -91,8 +91,8 @@ export default function Navbar() {
           </span>
         </button>
 
-        {/* Book Journey Dropdown */}
-        <div ref={dropdownRef} className="relative">
+        {/* Book Journey Dropdown (Hidden on Mobile) */}
+        <div ref={dropdownRef} className="relative hidden sm:block">
           <button
             onClick={() => setBookOpen(!bookOpen)}
             className="bg-white text-black px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold hover:bg-white/90 hover:scale-105 transition-all active:scale-95"
@@ -104,7 +104,7 @@ export default function Navbar() {
           <div
             className={cn(
               "absolute right-0 top-full mt-3 w-56 rounded-2xl overflow-hidden border border-white/10 shadow-2xl transition-all duration-300 origin-top-right",
-              "bg-[#121212]/95 backdrop-blur-xl",
+              "bg-[#121212]",
               bookOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
             )}
           >
@@ -167,7 +167,7 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       <div
         className={cn(
-          "absolute top-full left-0 right-0 mt-4 p-6 rounded-3xl border border-white/10 glass-dark flex flex-col gap-6 lg:hidden transition-all duration-300 origin-top",
+          "absolute top-full left-0 right-0 mt-4 p-6 rounded-3xl border border-white/10 bg-[#121212] shadow-2xl flex flex-col gap-6 lg:hidden transition-all duration-300 origin-top",
           mobileMenuOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-4 pointer-events-none"
         )}
       >
@@ -175,6 +175,31 @@ export default function Navbar() {
         <Link href="#gallery" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">Moments</Link>
         <Link href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">How It Works</Link>
         <Link href="#reviews" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">Reviews</Link>
+        
+        {/* Mobile Contact Options */}
+        <div className="pt-2 flex flex-col gap-3">
+          <p className="text-xs text-white/50 uppercase tracking-widest font-semibold mb-2">Book Journey</p>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi! I'd like to book a driver in Bali.")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 w-full bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/20 text-white p-4 rounded-xl transition-colors"
+          >
+             <MessageCircle className="w-5 h-5 text-[#25D366]" />
+             <span className="font-medium">WhatsApp</span>
+          </a>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(WECHAT_ID)
+              setCopied(true)
+              setTimeout(() => setCopied(false), 1500)
+            }}
+            className="flex items-center gap-3 w-full bg-[#07C160]/10 hover:bg-[#07C160]/20 border border-[#07C160]/20 text-white p-4 rounded-xl transition-colors text-left"
+          >
+             <MessageCircle className="w-5 h-5 text-[#07C160]" />
+             <span className="font-medium">{copied ? "✓ ID Copied!" : "WeChat"}</span>
+          </button>
+        </div>
       </div>
     </nav>
   )
