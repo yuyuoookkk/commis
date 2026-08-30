@@ -72,7 +72,7 @@ export default function PhotoTestimonials() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:auto-rows-[250px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[250px]">
           {testimonials.map((test, i) => (
             <div 
               key={i} 
