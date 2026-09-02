@@ -27,6 +27,13 @@ const transfers: ListingItem[] = [
   { route: "Airport → Lovina", price: "700k", type: "transfer" },
   { route: "Airport → Amed", price: "600k", type: "transfer" },
   { route: "Airport → Tulamben", price: "700k", type: "transfer" },
+  { route: "Sanur → Kuta / Legian", price: "200k", type: "transfer" },
+  { route: "Sanur → Seminyak", price: "250k", type: "transfer" },
+  { route: "Sanur → Berawa / Canggu", price: "400k", type: "transfer" },
+  { route: "Sanur → Nusa Dua", price: "300k", type: "transfer" },
+  { route: "Sanur → Uluwatu", price: "400k", type: "transfer" },
+  { route: "Sanur → Jimbaran", price: "250k", type: "transfer" },
+  { route: "Sanur → Ubud Central", price: "300k", type: "transfer" },
 ]
 
 const tours: ListingItem[] = [
