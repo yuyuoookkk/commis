@@ -115,6 +115,32 @@ const translations: Record<string, Record<Lang, string>> = {
   "carUnit.feat.mineralWater": { en: "Complimentary mineral water", id: "Air mineral gratis" },
   "carUnit.feat.tintedWindows": { en: "Tinted windows", id: "Kaca film" },
 
+  // Island Tours
+  "islandTours.label": { en: "Island Tours", id: "Tur Pulau" },
+  "islandTours.heading": { en: "Island Day Trips", id: "Perjalanan Sehari ke Pulau" },
+  "islandTours.desc": { en: "Cross the water for a day. Tap a tour to get the price and full itinerary from us on WhatsApp or WeChat.", id: "Menyeberang laut untuk sehari. Ketuk salah satu tur untuk mendapatkan harga dan itinerari lengkap dari kami via WhatsApp atau WeChat." },
+  "islandTours.highlights": { en: "Tour highlights", id: "Sorotan tur" },
+  "islandTours.tapForPrice": { en: "Tap for price & details", id: "Ketuk untuk harga & detail" },
+  "islandTours.priceNote": { en: "Price and the full itinerary depend on your dates and group size. Message us and we will send you a personalised quote.", id: "Harga dan itinerari lengkap tergantung tanggal dan jumlah peserta. Hubungi kami dan kami akan mengirimkan penawaran khusus untuk Anda." },
+  "islandTours.copied": { en: "WeChat ID Copied!", id: "ID WeChat Disalin!" },
+  "islandTours.close": { en: "Close", id: "Tutup" },
+
+  "islandTours.gili.name": { en: "Gili Trawangan Tour", id: "Tur Gili Trawangan" },
+  "islandTours.gili.tagline": { en: "Car-free island, turquoise water", id: "Pulau bebas mobil, air biru toska" },
+  "islandTours.gili.duration": { en: "Day trip or overnight", id: "Sehari atau menginap" },
+  "islandTours.gili.h1": { en: "Fast boat crossing from Bali", id: "Penyeberangan fast boat dari Bali" },
+  "islandTours.gili.h2": { en: "Snorkelling with sea turtles", id: "Snorkeling bersama penyu" },
+  "islandTours.gili.h3": { en: "The underwater statues at Gili Meno", id: "Patung bawah laut di Gili Meno" },
+  "islandTours.gili.h4": { en: "Sunset swing and beach bars", id: "Ayunan sunset dan bar pantai" },
+
+  "islandTours.penida.name": { en: "Nusa Penida Tour", id: "Tur Nusa Penida" },
+  "islandTours.penida.tagline": { en: "Cliffs, coves and Kelingking", id: "Tebing, teluk, dan Kelingking" },
+  "islandTours.penida.duration": { en: "One day trip", id: "Perjalanan sehari" },
+  "islandTours.penida.h1": { en: "Kelingking Beach viewpoint", id: "Panorama Pantai Kelingking" },
+  "islandTours.penida.h2": { en: "Angel's Billabong & Broken Beach", id: "Angel's Billabong & Pasih Uug" },
+  "islandTours.penida.h3": { en: "Crystal Bay for swimming and sunset", id: "Crystal Bay untuk berenang dan sunset" },
+  "islandTours.penida.h4": { en: "Fast boat from Sanur, private car and driver on the island", id: "Fast boat dari Sanur, mobil pribadi dan sopir di pulau" },
+
   // How it Works
   "how.label": { en: "How it Works", id: "Cara Kerja" },
   "how.heading": { en: "A seamless path to paradise.", id: "Jalan mulus menuju surga." },

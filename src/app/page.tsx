@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/Hero"
 import Pricing from "@/components/sections/Pricing"
 import CarUnit from "@/components/sections/CarUnit"
+import IslandTours from "@/components/sections/IslandTours"
 import PhotoTestimonials from "@/components/sections/PhotoTestimonials"
 import HowItWorks from "@/components/sections/HowItWorks"
 import Testimonials from "@/components/sections/Testimonials"
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <Pricing />
       <CarUnit />
+      <IslandTours />
       <PhotoTestimonials />
       <HowItWorks />
       <Testimonials />
