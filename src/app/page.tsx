@@ -1,5 +1,6 @@
 import Hero from "@/components/sections/Hero"
 import Pricing from "@/components/sections/Pricing"
+import CarUnit from "@/components/sections/CarUnit"
 import PhotoTestimonials from "@/components/sections/PhotoTestimonials"
 import HowItWorks from "@/components/sections/HowItWorks"
 import Testimonials from "@/components/sections/Testimonials"
@@ -10,6 +11,7 @@ export default function Home() {
     <main className="w-full relative bg-dark-surface text-white">
       <Hero />
       <Pricing />
+      <CarUnit />
       <PhotoTestimonials />
       <HowItWorks />
       <Testimonials />
