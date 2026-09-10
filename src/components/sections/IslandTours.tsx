@@ -250,7 +250,7 @@ export default function IslandTours() {
 
   return (
     <>
-      <section id="tours" ref={containerRef} className="py-24 px-6 md:px-12 lg:px-24 bg-dark-surface relative border-t border-white/5">
+      <section id="tours" ref={containerRef} className="py-24 px-6 md:px-12 lg:px-24 bg-dark-surface relative overflow-hidden border-t border-white/5">
         {/* Background glow */}
         <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-luxury-gold/5 rounded-full blur-[120px] pointer-events-none" />
 
