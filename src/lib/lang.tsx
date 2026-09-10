@@ -98,6 +98,23 @@ const translations: Record<string, Record<Lang, string>> = {
   "feat.newestModels": { en: "Newest models", id: "Model terbaru" },
   "feat.flexibleRental": { en: "Flexible rental", id: "Sewa fleksibel" },
 
+  // Car Unit
+  "carUnit.label": { en: "Car Unit", id: "Unit Mobil" },
+  "carUnit.heading": { en: "Meet Our Cars", id: "Kenali Mobil Kami" },
+  "carUnit.desc": { en: "The actual vehicles that will pick you up — clean, well-maintained Toyota Avanza units from 2022 onwards, ready for airport transfers and full-day tours.", id: "Kendaraan asli yang akan menjemput Anda — unit Toyota Avanza yang bersih dan terawat, keluaran 2022 ke atas, siap untuk antar jemput bandara dan tur seharian." },
+  "carUnit.pax": { en: "Passengers", id: "Penumpang" },
+  "carUnit.bags": { en: "Bags", id: "Koper" },
+  "carUnit.bookThisCar": { en: "Book This Car", id: "Pesan Mobil Ini" },
+  "carUnit.avanzaBlack.name": { en: "Toyota Avanza", id: "Toyota Avanza" },
+  "carUnit.avanzaBlack.color": { en: "Black — Bali Plate", id: "Hitam — Plat Bali" },
+  "carUnit.avanzaWhite.name": { en: "Toyota Avanza", id: "Toyota Avanza" },
+  "carUnit.avanzaWhite.color": { en: "White — Bali Plate", id: "Putih — Plat Bali" },
+  "carUnit.feat.dualAc": { en: "Dual air conditioning", id: "AC ganda" },
+  "carUnit.feat.usbCharging": { en: "USB charging ports", id: "Port pengisian USB" },
+  "carUnit.feat.recliningSeats": { en: "Reclining seats", id: "Kursi dapat direbahkan" },
+  "carUnit.feat.mineralWater": { en: "Complimentary mineral water", id: "Air mineral gratis" },
+  "carUnit.feat.tintedWindows": { en: "Tinted windows", id: "Kaca film" },
+
   // How it Works
   "how.label": { en: "How it Works", id: "Cara Kerja" },
   "how.heading": { en: "A seamless path to paradise.", id: "Jalan mulus menuju surga." },
