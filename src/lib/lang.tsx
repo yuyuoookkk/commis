@@ -143,7 +143,8 @@ const translations: Record<string, Record<Lang, string>> = {
   "islandTours.penida.d1": { en: "Kelingking Beach viewpoint", id: "Panorama Pantai Kelingking" },
   "islandTours.penida.d2": { en: "Angel's Billabong & Broken Beach", id: "Angel's Billabong & Pasih Uug" },
   "islandTours.penida.d3": { en: "Crystal Bay for swimming and sunset", id: "Crystal Bay untuk berenang dan sunset" },
-  "islandTours.penida.d4": { en: "Fast boat from Sanur, private car and driver on the island", id: "Fast boat dari Sanur, mobil pribadi dan sopir di pulau" },
+  "islandTours.penida.d4": { en: "Snorkelling session included", id: "Termasuk sesi snorkeling" },
+  "islandTours.penida.d5": { en: "Fast boat from Sanur, private car and driver on the island", id: "Fast boat dari Sanur, mobil pribadi dan sopir di pulau" },
 
   // How it Works
   "how.label": { en: "How it Works", id: "Cara Kerja" },

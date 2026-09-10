@@ -64,6 +64,7 @@ const TRIPS: Trip[] = [
       "islandTours.penida.d2",
       "islandTours.penida.d3",
       "islandTours.penida.d4",
+      "islandTours.penida.d5",
     ],
   },
 ]
