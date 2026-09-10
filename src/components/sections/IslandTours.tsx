@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Ship, Waves, Mountain, ArrowRight, X, MessageCircle, Clock } from "lucide-react"
+import { Ship, Ticket, Mountain, ArrowRight, X, MessageCircle, Clock, Anchor } from "lucide-react"
 import { useLang } from "@/lib/lang"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -13,49 +13,66 @@ gsap.registerPlugin(ScrollTrigger)
 const WHATSAPP_NUMBER = "62881037512641"
 const WECHAT_ID = "wxid_tz213yzqzud422"
 
-interface Tour {
+interface Departure {
   id: string
-  icon: typeof Waves
+  name: string
+  labelKey: string
+}
+
+interface Trip {
+  id: string
+  kind: "tour" | "ticket"
+  icon: typeof Mountain
   image?: string
   nameKey: string
   taglineKey: string
-  durationKey: string
-  highlightKeys: string[]
+  badgeKey: string
+  detailKeys: string[]
+  noteKey: string
+  departures?: Departure[]
 }
 
-const TOURS: Tour[] = [
+const TRIPS: Trip[] = [
   {
     id: "gili-trawangan",
-    icon: Waves,
+    kind: "ticket",
+    icon: Ticket,
     nameKey: "islandTours.gili.name",
     taglineKey: "islandTours.gili.tagline",
-    durationKey: "islandTours.gili.duration",
-    highlightKeys: [
-      "islandTours.gili.h1",
-      "islandTours.gili.h2",
-      "islandTours.gili.h3",
-      "islandTours.gili.h4",
+    badgeKey: "islandTours.gili.badge",
+    noteKey: "islandTours.ticketNote",
+    detailKeys: [
+      "islandTours.gili.d1",
+      "islandTours.gili.d2",
+      "islandTours.gili.d3",
+    ],
+    departures: [
+      { id: "padang-bai", name: "Padang Bai", labelKey: "islandTours.departure.padangBai" },
+      { id: "sanur", name: "Sanur", labelKey: "islandTours.departure.sanur" },
     ],
   },
   {
     id: "nusa-penida",
+    kind: "tour",
     icon: Mountain,
     nameKey: "islandTours.penida.name",
     taglineKey: "islandTours.penida.tagline",
-    durationKey: "islandTours.penida.duration",
-    highlightKeys: [
-      "islandTours.penida.h1",
-      "islandTours.penida.h2",
-      "islandTours.penida.h3",
-      "islandTours.penida.h4",
+    badgeKey: "islandTours.penida.badge",
+    noteKey: "islandTours.tourNote",
+    detailKeys: [
+      "islandTours.penida.d1",
+      "islandTours.penida.d2",
+      "islandTours.penida.d3",
+      "islandTours.penida.d4",
     ],
   },
 ]
 
-function TourModal({ tour, onClose }: { tour: Tour; onClose: () => void }) {
+function TripModal({ trip, onClose }: { trip: Trip; onClose: () => void }) {
   const { t } = useLang()
   const [copied, setCopied] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [departure, setDeparture] = useState<Departure | null>(null)
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setVisible(true))
@@ -73,9 +90,13 @@ function TourModal({ tour, onClose }: { tour: Tour; onClose: () => void }) {
     }
   }, [onClose])
 
-  const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    `Hi! I'd like the price and details for the ${t(tour.nameKey)}.`
-  )}`
+  const waText = trip.kind === "ticket"
+    ? departure
+      ? `Hi! I'd like a ${t(trip.nameKey)} departing from ${departure.name}.`
+      : `Hi! I'd like a ${t(trip.nameKey)}.`
+    : `Hi! I'd like the price and details for the ${t(trip.nameKey)}.`
+
+  const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4" onClick={onClose}>
@@ -90,7 +111,7 @@ function TourModal({ tour, onClose }: { tour: Tour; onClose: () => void }) {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={t(tour.nameKey)}
+        aria-label={t(trip.nameKey)}
         className={`relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#121212] border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl transition-all duration-300 ${
           visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
         }`}
@@ -105,21 +126,22 @@ function TourModal({ tour, onClose }: { tour: Tour; onClose: () => void }) {
         </button>
 
         <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-luxury-gold bg-luxury-gold/10 px-3 py-1 rounded-full mb-6">
-          <Ship className="w-3.5 h-3.5" />
-          {t("islandTours.label")}
+          {trip.kind === "ticket" ? <Ticket className="w-3.5 h-3.5" /> : <Ship className="w-3.5 h-3.5" />}
+          {t(trip.badgeKey)}
         </span>
 
         <h3 className="text-2xl md:text-3xl font-serif text-white mb-2 leading-snug">
-          {t(tour.nameKey)}
+          {t(trip.nameKey)}
         </h3>
-        <p className="text-gray-400 text-sm mb-1">{t(tour.taglineKey)}</p>
-        <p className="text-gray-500 text-xs uppercase tracking-wider mb-8 pb-8 border-b border-white/10">
-          {t(tour.durationKey)}
+        <p className="text-gray-400 text-sm mb-8 pb-8 border-b border-white/10">
+          {t(trip.taglineKey)}
         </p>
 
-        <p className="text-white font-medium mb-4">{t("islandTours.highlights")}</p>
+        <p className="text-white font-medium mb-4">
+          {trip.kind === "ticket" ? t("islandTours.whatYouGet") : t("islandTours.highlights")}
+        </p>
         <ul className="space-y-3 mb-8 text-sm text-gray-300">
-          {tour.highlightKeys.map((key) => (
+          {trip.detailKeys.map((key) => (
             <li key={key} className="flex items-start gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold mt-1.5 shrink-0" />
               {t(key)}
@@ -127,8 +149,36 @@ function TourModal({ tour, onClose }: { tour: Tour; onClose: () => void }) {
           ))}
         </ul>
 
+        {/* Departure picker (tickets only) */}
+        {trip.departures && (
+          <div className="mb-8">
+            <p className="text-white font-medium mb-4">{t("islandTours.chooseDeparture")}</p>
+            <div className="grid grid-cols-2 gap-3">
+              {trip.departures.map((dep) => {
+                const active = departure?.id === dep.id
+                return (
+                  <button
+                    key={dep.id}
+                    type="button"
+                    onClick={() => setDeparture(active ? null : dep)}
+                    aria-pressed={active}
+                    className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
+                      active
+                        ? "bg-luxury-gold/15 border-luxury-gold text-white"
+                        : "bg-white/5 border-white/10 text-gray-300 hover:bg-white/10 hover:border-white/20"
+                    }`}
+                  >
+                    <Anchor className={`w-4 h-4 shrink-0 ${active ? "text-luxury-gold" : "text-gray-500"}`} />
+                    {t(dep.labelKey)}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         <p className="text-gray-400 text-sm mb-8 pb-8 border-b border-white/10">
-          {t("islandTours.priceNote")}
+          {t(trip.noteKey)}
         </p>
 
         {/* Contact actions */}
@@ -176,7 +226,7 @@ function TourModal({ tour, onClose }: { tour: Tour; onClose: () => void }) {
 
 export default function IslandTours() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [selectedTour, setSelectedTour] = useState<Tour | null>(null)
+  const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const { t } = useLang()
 
   useGSAP(() => {
@@ -217,21 +267,21 @@ export default function IslandTours() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {TOURS.map((tour) => {
-              const Icon = tour.icon
+            {TRIPS.map((trip) => {
+              const Icon = trip.icon
               return (
                 <button
-                  key={tour.id}
+                  key={trip.id}
                   type="button"
-                  onClick={() => setSelectedTour(tour)}
+                  onClick={() => setSelectedTrip(trip)}
                   className="island-tour-card group text-left glass-dark rounded-2xl overflow-hidden border border-white/5 hover:border-luxury-gold/30 hover:shadow-[0_0_30px_rgba(212,175,55,0.07)] transition-all cursor-pointer flex flex-col"
                 >
                   {/* Visual */}
-                  <div className={`relative w-full overflow-hidden bg-gradient-to-br from-luxury-gold/15 via-white/5 to-transparent ${tour.image ? "aspect-[16/10]" : "h-36"}`}>
-                    {tour.image ? (
+                  <div className={`relative w-full overflow-hidden bg-gradient-to-br from-luxury-gold/15 via-white/5 to-transparent ${trip.image ? "aspect-[16/10]" : "h-36"}`}>
+                    {trip.image ? (
                       <Image
-                        src={tour.image}
-                        alt={t(tour.nameKey)}
+                        src={trip.image}
+                        alt={t(trip.nameKey)}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -243,24 +293,41 @@ export default function IslandTours() {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
                     <span className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold text-white bg-black/50 backdrop-blur-sm border border-white/15">
-                      <Clock className="w-3.5 h-3.5 text-luxury-gold" />
-                      {t(tour.durationKey)}
+                      {trip.kind === "ticket"
+                        ? <Ticket className="w-3.5 h-3.5 text-luxury-gold" />
+                        : <Clock className="w-3.5 h-3.5 text-luxury-gold" />}
+                      {t(trip.badgeKey)}
                     </span>
                   </div>
 
                   {/* Body */}
                   <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="text-2xl font-serif text-white mb-1">{t(tour.nameKey)}</h3>
-                    <p className="text-luxury-gold text-sm mb-6">{t(tour.taglineKey)}</p>
+                    <h3 className="text-2xl font-serif text-white mb-1">{t(trip.nameKey)}</h3>
+                    <p className="text-luxury-gold text-sm mb-6">{t(trip.taglineKey)}</p>
 
-                    <ul className="space-y-3 mb-8 flex-1">
-                      {tour.highlightKeys.map((key) => (
+                    <ul className="space-y-3 mb-6 flex-1">
+                      {trip.detailKeys.map((key) => (
                         <li key={key} className="flex items-start gap-3 text-sm text-gray-300">
                           <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold mt-1.5 shrink-0" />
                           {t(key)}
                         </li>
                       ))}
                     </ul>
+
+                    {/* Departure options preview */}
+                    {trip.departures && (
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {trip.departures.map((dep) => (
+                          <span
+                            key={dep.id}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white/5 border border-white/10 text-gray-300"
+                          >
+                            <Anchor className="w-3 h-3 text-luxury-gold" />
+                            {t(dep.labelKey)}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     <div className="flex items-center justify-between pt-6 border-t border-white/5">
                       <span className="text-white font-medium group-hover:text-luxury-gold transition-colors">
@@ -276,8 +343,8 @@ export default function IslandTours() {
         </div>
       </section>
 
-      {selectedTour && (
-        <TourModal tour={selectedTour} onClose={() => setSelectedTour(null)} />
+      {selectedTrip && (
+        <TripModal trip={selectedTrip} onClose={() => setSelectedTrip(null)} />
       )}
     </>
   )
