@@ -113,6 +113,8 @@ function TripModal({ trip, onClose }: { trip: Trip; onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-label={t(trip.nameKey)}
+        // Lenis hijacks the wheel on desktop; this opts the modal out so it scrolls natively
+        data-lenis-prevent
         className={`relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#121212] border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl transition-all duration-300 ${
           visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
         }`}
