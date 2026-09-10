@@ -115,6 +115,37 @@ const translations: Record<string, Record<Lang, string>> = {
   "carUnit.feat.mineralWater": { en: "Complimentary mineral water", id: "Air mineral gratis" },
   "carUnit.feat.tintedWindows": { en: "Tinted windows", id: "Kaca film" },
 
+  // Island Tours & Tickets
+  "islandTours.label": { en: "Island Trips", id: "Perjalanan Pulau" },
+  "islandTours.heading": { en: "Tours & Boat Tickets", id: "Tur & Tiket Kapal" },
+  "islandTours.desc": { en: "Head across the water. Tap one to get the price and details from us on WhatsApp or WeChat.", id: "Menyeberang laut. Ketuk salah satu untuk mendapatkan harga dan detailnya dari kami via WhatsApp atau WeChat." },
+  "islandTours.highlights": { en: "Tour highlights", id: "Sorotan tur" },
+  "islandTours.whatYouGet": { en: "What you get", id: "Yang Anda dapatkan" },
+  "islandTours.chooseDeparture": { en: "Choose your departure harbour", id: "Pilih pelabuhan keberangkatan" },
+  "islandTours.tapForPrice": { en: "Tap for price & details", id: "Ketuk untuk harga & detail" },
+  "islandTours.tourNote": { en: "Price and the full itinerary depend on your dates and group size. Message us and we will send you a personalised quote.", id: "Harga dan itinerari lengkap tergantung tanggal dan jumlah peserta. Hubungi kami dan kami akan mengirimkan penawaran khusus untuk Anda." },
+  "islandTours.ticketNote": { en: "Tell us your departure harbour, travel date, number of passengers, and whether you need one way or return — we will send you the price and secure your seats.", id: "Beri tahu kami pelabuhan keberangkatan, tanggal perjalanan, jumlah penumpang, dan apakah Anda butuh sekali jalan atau pulang-pergi — kami akan mengirimkan harga dan mengamankan kursi Anda." },
+  "islandTours.copied": { en: "WeChat ID Copied!", id: "ID WeChat Disalin!" },
+  "islandTours.close": { en: "Close", id: "Tutup" },
+  "islandTours.departure.padangBai": { en: "Padang Bai", id: "Padang Bai" },
+  "islandTours.departure.sanur": { en: "Sanur", id: "Sanur" },
+
+  "islandTours.gili.name": { en: "Gili Trawangan Boat Ticket", id: "Tiket Kapal Gili Trawangan" },
+  "islandTours.gili.badge": { en: "Ticket only", id: "Tiket saja" },
+  "islandTours.gili.tagline": { en: "Fast boat crossing to the Gilis", id: "Penyeberangan fast boat ke Gili" },
+  "islandTours.gili.d1": { en: "Fast boat ticket only — no tour or driver included", id: "Hanya tiket fast boat — tanpa tur atau sopir" },
+  "islandTours.gili.d2": { en: "Two departure harbours to choose from", id: "Dua pilihan pelabuhan keberangkatan" },
+  "islandTours.gili.d3": { en: "One way or return, booked for your travel date", id: "Sekali jalan atau pulang-pergi, dipesan sesuai tanggal Anda" },
+
+  "islandTours.penida.name": { en: "Nusa Penida Tour", id: "Tur Nusa Penida" },
+  "islandTours.penida.badge": { en: "One day trip", id: "Perjalanan sehari" },
+  "islandTours.penida.tagline": { en: "Cliffs, coves and Kelingking", id: "Tebing, teluk, dan Kelingking" },
+  "islandTours.penida.d1": { en: "Kelingking Beach viewpoint", id: "Panorama Pantai Kelingking" },
+  "islandTours.penida.d2": { en: "Angel's Billabong & Broken Beach", id: "Angel's Billabong & Pasih Uug" },
+  "islandTours.penida.d3": { en: "Crystal Bay for swimming and sunset", id: "Crystal Bay untuk berenang dan sunset" },
+  "islandTours.penida.d4": { en: "Snorkelling session included", id: "Termasuk sesi snorkeling" },
+  "islandTours.penida.d5": { en: "Fast boat from Sanur, private car and driver on the island", id: "Fast boat dari Sanur, mobil pribadi dan sopir di pulau" },
+
   // How it Works
   "how.label": { en: "How it Works", id: "Cara Kerja" },
   "how.heading": { en: "A seamless path to paradise.", id: "Jalan mulus menuju surga." },

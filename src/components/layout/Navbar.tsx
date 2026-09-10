@@ -72,6 +72,7 @@ export default function Navbar() {
       <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-white/80">
         <Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link>
         <Link href="#car-unit" className="hover:text-white transition-colors">Car Unit</Link>
+        <Link href="#tours" className="hover:text-white transition-colors">Tours</Link>
         <Link href="#gallery" className="hover:text-white transition-colors">Moments</Link>
         <Link href="#how-it-works" className="hover:text-white transition-colors">How It Works</Link>
         <Link href="#reviews" className="hover:text-white transition-colors">Reviews</Link>
@@ -174,6 +175,7 @@ export default function Navbar() {
       >
         <Link href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">Pricing</Link>
         <Link href="#car-unit" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">Car Unit</Link>
+        <Link href="#tours" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">Tours</Link>
         <Link href="#gallery" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">Moments</Link>
         <Link href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">How It Works</Link>
         <Link href="#reviews" onClick={() => setMobileMenuOpen(false)} className="text-lg font-serif text-white border-b border-white/10 pb-4">Reviews</Link>
