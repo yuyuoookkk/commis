@@ -2,21 +2,23 @@
 
 @theme {
   --font-sans: var(--font-inter);
-  --font-serif: var(--font-playfair);
-  
-  --color-luxury-gold: #D4AF37;
-  --color-luxury-gold-hover: #F3E5AB;
-  --color-dark-surface: #0a0a0a;
-  --color-dark-elevated: #1a1a1a;
-  --color-overlay: rgba(255, 255, 255, 0.05);
+  --font-display: var(--font-oswald);
+
+  --color-brand: #ff6a00;
+  --color-brand-hover: #ff8226;
+  --color-brand-soft: rgba(255, 106, 0, 0.12);
+
+  --color-ink: #0a0a0a;
+  --color-surface: #111111;
+  --color-surface-2: #181818;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.16);
 }
 
 :root {
-  --background: #050505;
-  --foreground: #f8f8f8;
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
 }
-
-
 
 body {
   background-color: var(--background);
@@ -32,21 +34,33 @@ button, a {
   appearance: none;
 }
 
-/* Glassmorphism Utilities */
-@utility glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+/* Small orange kicker that sits above every section heading */
+@utility eyebrow {
+  color: var(--color-brand);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
-@utility glass-dark {
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+/* Condensed uppercase display type used for all headings */
+@utility display {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+}
+
+/* Hollow headline treatment layered over hero imagery */
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+}
+
+@utility panel {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-line);
 }
 
 /* Hide scrollbar for clean aesthetics */
