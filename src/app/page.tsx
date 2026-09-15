@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero"
+import TourPackages from "@/components/sections/TourPackages"
 import Pricing from "@/components/sections/Pricing"
 import CarUnit from "@/components/sections/CarUnit"
 import IslandTours from "@/components/sections/IslandTours"
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <main className="w-full relative bg-dark-surface text-white">
       <Hero />
+      <TourPackages />
       <Pricing />
       <CarUnit />
       <IslandTours />

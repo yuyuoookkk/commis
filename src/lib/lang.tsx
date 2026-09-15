@@ -98,6 +98,15 @@ const translations: Record<string, Record<Lang, string>> = {
   "feat.newestModels": { en: "Newest models", id: "Model terbaru" },
   "feat.flexibleRental": { en: "Flexible rental", id: "Sewa fleksibel" },
 
+  // Package cards
+  "card.bestSeller": { en: "Best Seller", id: "Terlaris" },
+  "card.details": { en: "Details", id: "Detail" },
+  "card.book": { en: "Book", id: "Pesan" },
+  "card.pricing": { en: "Pricing", id: "Harga" },
+  "card.startFrom": { en: "Start from", id: "Mulai dari" },
+  "card.onRequest": { en: "On request", id: "Sesuai permintaan" },
+  "card.whatsIncluded": { en: "What's included", id: "Yang termasuk" },
+
   // Car Unit
   "carUnit.label": { en: "Car Unit", id: "Unit Mobil" },
   "carUnit.heading": { en: "Meet Our Cars", id: "Kenali Mobil Kami" },
