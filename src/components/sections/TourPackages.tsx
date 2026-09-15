@@ -1,223 +1,166 @@
 "use client"
 
-import { useRef, useState } from "react"
-import { useGSAP } from "@gsap/react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowRight, Check } from "lucide-react"
+import { useState } from "react"
+import Image from "next/image"
+import { cn } from "@/lib/utils"
+import { Clock, Sun, Ship, Anchor, Plane, Heart, Car, ChevronRight } from "lucide-react"
 import { useLang } from "@/lib/lang"
-import PackageCard from "@/components/ui/PackageCard"
-import SectionHeading from "@/components/ui/SectionHeading"
-import Modal from "@/components/ui/Modal"
-import ContactActions from "@/components/ui/ContactActions"
-import { waLink } from "@/lib/contact"
 
-gsap.registerPlugin(ScrollTrigger)
-
-interface Service {
-  id: string
-  titleKey: string
-  subtitleKey: string
-  descKey: string
-  image: string
-  featureKeys: string[]
-  priceValue?: string
-  bestSeller?: boolean
-}
-
-const MAIN_PACKAGES: Service[] = [
+const SERVICES = [
   {
-    id: "full-day",
+    id: 1,
     titleKey: "tours.fullDay.title",
     subtitleKey: "tours.fullDay.subtitle",
     descKey: "tours.fullDay.desc",
+    icon: Sun,
     image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1400",
     featureKeys: ["feat.petrol", "feat.driver", "feat.newestCar"],
-    priceValue: "IDR 600k",
-    bestSeller: true,
   },
   {
-    id: "half-day",
+    id: 2,
     titleKey: "tours.halfDay.title",
     subtitleKey: "tours.halfDay.subtitle",
     descKey: "tours.halfDay.desc",
+    icon: Clock,
     image: "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&q=80&w=1400",
     featureKeys: ["feat.petrol", "feat.driver", "feat.newestCar"],
   },
   {
-    id: "penida-full",
-    titleKey: "tours.penida.title",
-    subtitleKey: "tours.penida.subtitle",
-    descKey: "tours.penida.desc",
-    image: "/assets/tour-nusa-penida.jpg",
-    featureKeys: ["feat.allInclusive", "feat.boatTicket", "feat.privateCar"],
-    bestSeller: true,
-  },
-  {
-    id: "airport",
-    titleKey: "tours.airport.title",
-    subtitleKey: "tours.airport.subtitle",
-    descKey: "tours.airport.desc",
-    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1400",
-    featureKeys: ["feat.mineralWater", "feat.newestCarShort", "feat.meetGreet"],
-    priceValue: "IDR 200k",
-  },
-]
-
-const EXTRA_PACKAGES: Service[] = [
-  {
-    id: "shuttle",
+    id: 3,
     titleKey: "tours.shuttle.title",
     subtitleKey: "tours.shuttle.subtitle",
     descKey: "tours.shuttle.desc",
-    image: "/assets/tour-gili-trawangan.jpg",
+    icon: Ship,
+    image: "https://images.unsplash.com/photo-1468413253725-0d5181091126?auto=format&fit=crop&q=80&w=1400",
     featureKeys: ["feat.hotelPickup", "feat.harbourDrop", "feat.return"],
   },
   {
-    id: "wedding",
+    id: 4,
+    titleKey: "tours.penida.title",
+    subtitleKey: "tours.penida.subtitle",
+    descKey: "tours.penida.desc",
+    icon: Anchor,
+    image: "https://images.unsplash.com/photo-1537956965359-7573183d1f57?auto=format&fit=crop&q=80&w=1400",
+    featureKeys: ["feat.allInclusive", "feat.boatTicket", "feat.privateCar"],
+  },
+  {
+    id: 5,
+    titleKey: "tours.airport.title",
+    subtitleKey: "tours.airport.subtitle",
+    descKey: "tours.airport.desc",
+    icon: Plane,
+    image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1400",
+    featureKeys: ["feat.mineralWater", "feat.newestCarShort", "feat.meetGreet"],
+  },
+  {
+    id: 6,
     titleKey: "tours.wedding.title",
     subtitleKey: "tours.wedding.subtitle",
     descKey: "tours.wedding.desc",
+    icon: Heart,
     image: "https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=1400",
     featureKeys: ["feat.customDeco", "feat.privateVehicle", "feat.weddingReady"],
   },
   {
-    id: "rent-car",
+    id: 7,
     titleKey: "tours.rentCar.title",
     subtitleKey: "tours.rentCar.subtitle",
     descKey: "tours.rentCar.desc",
+    icon: Car,
     image: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80&w=1400",
     featureKeys: ["feat.selfDrive", "feat.newestModels", "feat.flexibleRental"],
   },
 ]
 
 export default function TourPackages() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [selected, setSelected] = useState<Service | null>(null)
+  const [hoveredId, setHoveredId] = useState<number | null>(null)
   const { t } = useLang()
 
-  useGSAP(() => {
-    gsap.fromTo(
-      ".package-card",
-      { y: 32, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: "power2.out",
-        scrollTrigger: { trigger: containerRef.current, start: "top 75%" },
-      }
-    )
-  }, { scope: containerRef })
-
-  const renderCard = (service: Service) => (
-    <PackageCard
-      key={service.id}
-      className="package-card"
-      image={service.image}
-      title={t(service.titleKey)}
-      badge={t(service.subtitleKey)}
-      description={t(service.descKey)}
-      priceLabel={service.priceValue ? t("card.startFrom") : t("card.pricing")}
-      priceValue={service.priceValue ?? t("card.onRequest")}
-      features={service.featureKeys.map((key) => t(key))}
-      highlightLabel={service.bestSeller ? t("card.bestSeller") : undefined}
-      detailsLabel={t("card.details")}
-      bookLabel={t("card.book")}
-      bookHref={waLink(`Hi! I'd like to book the ${t(service.titleKey)}.`)}
-      onDetails={() => setSelected(service)}
-    />
-  )
-
   return (
-    <>
-      <section
-        id="packages"
-        ref={containerRef}
-        className="border-t border-line bg-ink px-6 py-24 md:px-12 lg:px-24"
-      >
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow={t("packages.mainLabel")}
-            title={t("packages.mainHeading")}
-            description={t("packages.mainDesc")}
-            className="mb-12"
-          />
+    <section id="tours" className="py-28 md:py-36 bg-[#F5F1E7] text-[#111111] relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {MAIN_PACKAGES.map(renderCard)}
-          </div>
-
-          <SectionHeading
-            eyebrow={t("packages.extraLabel")}
-            title={t("packages.extraHeading")}
-            description={t("packages.extraDesc")}
-            className="mt-24 mb-12"
-          />
-
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {EXTRA_PACKAGES.map(renderCard)}
-
-            <div className="package-card flex flex-col justify-center rounded-xl border border-dashed border-brand/35 bg-brand-soft p-7">
-              <h3 className="display text-xl text-white">{t("packages.customTitle")}</h3>
-              <p className="mt-3 text-[13px] leading-relaxed text-white/50">
-                {t("packages.customDesc")}
-              </p>
-              <a
-                href={waLink("Hi! I'd like to plan a custom trip in Bali.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex w-fit items-center gap-2 rounded-md bg-brand px-5 py-3 text-xs font-bold tracking-wide text-white uppercase transition-colors hover:bg-brand-hover"
-              >
-                {t("tours.contactUs")}
-                <ArrowRight className="h-3.5 w-3.5" />
-              </a>
-            </div>
-          </div>
-
-          <p className="mt-10 text-center text-xs text-white/35">{t("tours.priceNote")}</p>
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
+          <h2 className="text-[#C28B6A] uppercase tracking-widest text-xs font-bold mb-4">{t("tours.label")}</h2>
+          <h3 className="font-serif text-4xl md:text-5xl text-[#16425B] leading-tight mb-6">
+            {t("tours.heading")}
+          </h3>
+          <p className="text-[#111]/60 text-base md:text-lg leading-relaxed">
+            {t("tours.desc")}
+          </p>
         </div>
-      </section>
 
-      {selected && (
-        <Modal
-          label={t(selected.titleKey)}
-          closeLabel={t("islandTours.close")}
-          onClose={() => setSelected(null)}
-        >
-          <span className="eyebrow">{t(selected.subtitleKey)}</span>
-          <h3 className="display mt-3 text-2xl text-white md:text-3xl">{t(selected.titleKey)}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {SERVICES.map((service) => {
+            const Icon = service.icon
+            return (
+              <div
+                key={service.id}
+                className={cn(
+                  "group relative bg-white rounded-3xl overflow-hidden border border-black/5 flex flex-col",
+                  "hover:shadow-2xl hover:shadow-black/8 hover:-translate-y-1.5 transition-all duration-500",
+                  (service.id === 1 || service.id === 7) && "lg:col-span-2"
+                )}
+                onMouseEnter={() => setHoveredId(service.id)}
+                onMouseLeave={() => setHoveredId(null)}
+              >
+                <div className={cn(
+                  "relative w-full overflow-hidden shrink-0 min-h-[240px]",
+                  (service.id === 1 || service.id === 7) ? "aspect-[16/9]" : "aspect-[4/3]"
+                )}>
+                  <Image
+                    src={service.image}
+                    alt={t(service.titleKey)}
+                    fill
+                    sizes={(service.id === 1 || service.id === 7) ? "(max-width: 768px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                  <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm shadow-sm">
+                    <Icon className="w-3.5 h-3.5 text-[#C28B6A]" />
+                    <span className="text-xs font-semibold text-[#16425B]">{t(service.subtitleKey)}</span>
+                  </div>
+                </div>
 
-          <p className="mt-4 border-b border-line pb-7 text-sm leading-relaxed text-white/50">
-            {t(selected.descKey)}
-          </p>
+                <div className="p-6 md:p-7 flex-1 flex flex-col">
+                  <h4 className={cn(
+                    "font-serif text-[#16425B] mb-2 leading-tight",
+                    (service.id === 1 || service.id === 7) ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
+                  )}>
+                    {t(service.titleKey)}
+                  </h4>
+                  <p className="text-[#111]/55 text-sm leading-relaxed mb-5 flex-1">
+                    {t(service.descKey)}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {service.featureKeys.map((featKey, i) => (
+                      <span
+                        key={i}
+                        className="px-3 py-1 rounded-full text-[11px] font-medium bg-[#F5F1E7] text-[#16425B]/80 border border-[#C28B6A]/15"
+                      >
+                        {t(featKey)}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
 
-          <p className="mt-7 mb-4 font-medium text-white">{t("card.whatsIncluded")}</p>
-          <ul className="mb-7 space-y-3">
-            {selected.featureKeys.map((key) => (
-              <li key={key} className="flex items-start gap-3 text-sm text-white/60">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                {t(key)}
-              </li>
-            ))}
-          </ul>
-
-          <p className="mb-7 border-b border-line pb-7 text-sm">
-            <span className="text-white/40">
-              {selected.priceValue ? `${t("card.startFrom")}: ` : `${t("card.pricing")}: `}
-            </span>
-            <span className="font-semibold text-brand">
-              {selected.priceValue ?? t("card.onRequest")}
-            </span>
-          </p>
-
-          <ContactActions
-            message={`Hi! I'd like the price and details for the ${t(selected.titleKey)}.`}
-            copiedLabel={t("islandTours.copied")}
-          />
-        </Modal>
-      )}
-    </>
+        <div className="mt-14 md:mt-20 text-center">
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#16425B] hover:bg-[#1d5475] text-white font-semibold text-sm transition-all duration-300 hover:shadow-xl hover:shadow-[#16425B]/20 hover:-translate-y-0.5"
+          >
+            {t("tours.contactUs")}
+            <ChevronRight className="w-4 h-4" />
+          </a>
+          <p className="text-[#111]/40 text-xs mt-4">{t("tours.priceNote")}</p>
+        </div>
+      </div>
+    </section>
   )
 }

@@ -1,84 +1,85 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 import Image from "next/image"
-import { useGSAP } from "@gsap/react"
-import gsap from "gsap"
-import { ArrowRight } from "lucide-react"
-import { useLang } from "@/lib/lang"
+import { gsap } from "gsap"
+import { ArrowRight, Car } from "lucide-react"
 import ContactDropdown from "@/components/ui/ContactDropdown"
-
-const STATS = [
-  { value: "2,500+", labelKey: "hero.statTravelers" },
-  { value: "2022+", labelKey: "hero.statCars" },
-  { value: "7", labelKey: "hero.statPackages" },
-]
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null)
-  const { t } = useLang()
-
-  useGSAP(() => {
-    gsap.fromTo(
-      ".hero-reveal",
-      { y: 28, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.9, stagger: 0.12, delay: 0.15, ease: "power3.out" }
-    )
-  }, { scope: heroRef })
+  
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.hero-badge', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: "power3.out" }
+      )
+      
+      gsap.fromTo('.hero-title', 
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.4, ease: "power3.out" }
+      )
+      
+      gsap.fromTo('.hero-desc', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.7, ease: "power3.out" }
+      )
+      
+      gsap.fromTo('.hero-cta', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.9, ease: "power3.out" }
+      )
+    }, heroRef)
+    
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <section
-      ref={heroRef}
-      className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink pt-32 pb-14"
-    >
+    <section ref={heroRef} className="relative w-full h-[100svh] min-h-[600px] overflow-hidden flex items-center bg-dark-surface">
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2938&auto=format&fit=crop"
-          alt="Balinese temple gateway at sunrise"
+          alt="Balinese Temple Gateway"
           fill
           sizes="100vw"
           priority
-          className="object-cover"
+          className="object-cover brightness-[0.6]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/40" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 xl:px-12">
-        <div className="flex flex-col gap-14 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="hero-reveal eyebrow mb-5">{t("hero.eyebrow")}</p>
-
-            <h1 className="hero-reveal display text-6xl leading-[0.88] text-white sm:text-7xl lg:text-8xl xl:text-9xl">
-              {t("hero.headlineTop")}
-              <br />
-              <span className="text-outline">{t("hero.headlineOutline")}</span>
-            </h1>
-
-            <p className="hero-reveal mt-7 max-w-lg text-sm leading-relaxed text-white/60 sm:text-base">
-              {t("hero.sub")}
-            </p>
-
-            <div className="hero-reveal mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <ContactDropdown label={t("hero.bookNow")} variant="primary" />
-              <a
-                href="#packages"
-                className="inline-flex items-center justify-center gap-2 rounded-md border border-line-strong px-7 py-4 text-xs font-bold tracking-widest text-white uppercase transition-colors hover:border-white/35 hover:bg-white/5"
-              >
-                {t("hero.viewPackages")}
-                <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
+      {/* Main Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 xl:px-12 flex flex-col justify-center pt-20">
+        
+        <div className="flex-1 flex flex-col justify-center max-w-3xl">
+          <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-luxury-gold/30 bg-luxury-gold/5 backdrop-blur-md mb-6 w-fit">
+            <Car className="w-4 h-4 text-luxury-gold" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-luxury-gold">
+              Premium Private Drivers
+            </span>
           </div>
+          
+          <h1 className="hero-title font-serif text-5xl md:text-7xl xl:text-8xl text-white leading-[1.1] mb-6 tracking-tight">
+            Explore Bali <br/>
+            <span className="text-luxury-gold italic font-light">Your Way</span>
+          </h1>
+          
+          <p className="hero-desc text-lg md:text-xl text-gray-300 max-w-xl font-light mb-10 leading-relaxed">
+            Experience the ultimate freedom and comfort. Hire a professional private driver and discover the hidden gems of Bali at your own pace.
+          </p>
 
-          <div className="hero-reveal flex flex-wrap gap-x-10 gap-y-6 lg:flex-col lg:gap-8 lg:text-right">
-            {STATS.map((stat) => (
-              <div key={stat.labelKey}>
-                <p className="display text-3xl text-brand lg:text-4xl">{stat.value}</p>
-                <p className="mt-1 text-[10px] font-semibold tracking-[0.18em] text-white/45 uppercase">
-                  {t(stat.labelKey)}
-                </p>
-              </div>
-            ))}
+          <div className="hero-cta flex flex-col sm:flex-row gap-4 w-fit">
+            <a
+              href="#pricing"
+              className="bg-luxury-gold text-dark-surface px-8 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-luxury-gold-hover hover:scale-105 transition-all shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+            >
+              View Pricing <ArrowRight className="w-5 h-5" />
+            </a>
+            <ContactDropdown
+              label="Contact Us"
+              variant="outline"
+            />
           </div>
         </div>
       </div>

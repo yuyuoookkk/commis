@@ -98,37 +98,6 @@ const translations: Record<string, Record<Lang, string>> = {
   "feat.newestModels": { en: "Newest models", id: "Model terbaru" },
   "feat.flexibleRental": { en: "Flexible rental", id: "Sewa fleksibel" },
 
-  // Package cards
-  "card.bestSeller": { en: "Best Seller", id: "Terlaris" },
-  "card.details": { en: "Details", id: "Detail" },
-  "card.book": { en: "Book", id: "Pesan" },
-  "card.pricing": { en: "Pricing", id: "Harga" },
-  "card.startFrom": { en: "Start from", id: "Mulai dari" },
-  "card.onRequest": { en: "On request", id: "Sesuai permintaan" },
-  "card.whatsIncluded": { en: "What's included", id: "Yang termasuk" },
-
-  // Package grids
-  "packages.mainLabel": { en: "Main Packages", id: "Paket Utama" },
-  "packages.mainHeading": { en: "Best Main Tour Packages", id: "Paket Tur Utama Terbaik" },
-  "packages.mainDesc": { en: "Our most requested trips around the island. Every package includes petrol, a private car from 2022 onwards, and a professional driver.", id: "Perjalanan kami yang paling banyak diminati di seluruh pulau. Setiap paket termasuk bensin, mobil pribadi keluaran 2022 ke atas, dan sopir profesional." },
-  "packages.extraLabel": { en: "Additional Packages", id: "Paket Tambahan" },
-  "packages.extraHeading": { en: "Extra & Add-On Packages", id: "Paket Ekstra & Tambahan" },
-  "packages.extraDesc": { en: "Transfers, island crossings and special-occasion rides. Book them on their own or alongside any tour.", id: "Antar jemput, penyeberangan pulau, dan kendaraan acara spesial. Pesan terpisah atau bersama tur mana pun." },
-  "packages.viewAll": { en: "View All Packages", id: "Lihat Semua Paket" },
-  "packages.customTitle": { en: "Something else in mind?", id: "Ada rencana lain?" },
-  "packages.customDesc": { en: "Tell us your dates, group size and the places you want to see. We will put together a custom itinerary and quote.", id: "Beri tahu kami tanggal, jumlah peserta, dan tempat yang ingin Anda kunjungi. Kami akan menyusun itinerari dan penawaran khusus." },
-
-  // Hero
-  "hero.eyebrow": { en: "Private Driver & Tours — Bali", id: "Sopir Pribadi & Tur — Bali" },
-  "hero.headlineTop": { en: "Explore", id: "Jelajahi" },
-  "hero.headlineOutline": { en: "Bali", id: "Bali" },
-  "hero.sub": { en: "See the Island of the Gods at your own pace. A professional private driver, a newest-model car, and an itinerary built entirely around you.", id: "Nikmati Pulau Dewata sesuai ritme Anda. Sopir pribadi profesional, mobil model terbaru, dan itinerari yang dirancang sepenuhnya untuk Anda." },
-  "hero.bookNow": { en: "Book Now", id: "Pesan Sekarang" },
-  "hero.viewPackages": { en: "View Packages", id: "Lihat Paket" },
-  "hero.statTravelers": { en: "Happy Travelers", id: "Wisatawan Puas" },
-  "hero.statCars": { en: "Newest Car Models", id: "Model Mobil Terbaru" },
-  "hero.statPackages": { en: "Tour & Transfer Packages", id: "Paket Tur & Antar Jemput" },
-
   // Car Unit
   "carUnit.label": { en: "Car Unit", id: "Unit Mobil" },
   "carUnit.heading": { en: "Meet Our Cars", id: "Kenali Mobil Kami" },

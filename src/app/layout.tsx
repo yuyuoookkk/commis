@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter, Oswald } from "next/font/google"
+import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import SmoothScroll from "@/components/layout/SmoothScroll"
 import Navbar from "@/components/layout/Navbar"
@@ -13,14 +13,13 @@ const inter = Inter({
   display: "swap",
 })
 
-const oswald = Oswald({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-oswald",
+  variable: "--font-playfair",
   display: "swap",
 })
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Violet Bali Driver | Your Journey • Our Passion",
   description: "Premium private driver services in Bali. Explore the Island of the Gods in comfort and style.",
 }
@@ -31,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${oswald.variable} antialiased`} suppressHydrationWarning>
-      <body className="font-sans antialiased bg-ink text-white">
+    <html lang="en" className={`${inter.variable} ${playfair.variable} antialiased`} suppressHydrationWarning>
+      <body className="font-sans antialiased bg-[#0d1117] text-white">
         <Providers>
           <SmoothScroll>
             <Navbar />
