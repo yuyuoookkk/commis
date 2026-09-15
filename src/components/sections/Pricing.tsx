@@ -1,10 +1,11 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
+import Image from "next/image"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Plane, Map, ArrowRight, X, MessageCircle } from "lucide-react"
+import { Plane, Map, ArrowRight, X, MessageCircle, Phone } from "lucide-react"
 import ContactDropdown from "@/components/ui/ContactDropdown"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -14,6 +15,7 @@ interface ListingItem {
   price: string
   duration?: string
   type: "transfer" | "tour"
+  image?: string
 }
 
 const transfers: ListingItem[] = [
@@ -46,6 +48,71 @@ const tours: ListingItem[] = [
 const WHATSAPP_NUMBER = "62881037512641"
 const WECHAT_ID = "wxid_tz213yzqzud422"
 
+function bookingLink(item: ListingItem) {
+  const message = encodeURIComponent(
+    `Hi! I'm interested in booking: ${item.route} (IDR ${item.price}).`
+  )
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`
+}
+
+function ListingCard({ item, onSelect }: { item: ListingItem; onSelect: () => void }) {
+  const Icon = item.type === "transfer" ? Plane : Map
+
+  return (
+    <article className="pricing-card group glass-dark flex flex-col rounded-2xl border border-white/5 p-3 transition-colors hover:border-luxury-gold/30">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-dark-elevated">
+        {item.image ? (
+          <Image
+            src={item.image}
+            alt={item.route}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Icon className="h-10 w-10 text-luxury-gold/20" />
+          </div>
+        )}
+        <span className="absolute top-3 left-3 rounded-full border border-white/15 bg-black/50 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
+          {item.type === "transfer" ? "Airport Transfer" : "Charter Tour"}
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col px-2 pt-5 pb-1">
+        <h4 className="font-serif text-lg leading-snug text-white">{item.route}</h4>
+        {item.duration && (
+          <p className="mt-1 text-xs tracking-wider text-gray-500 uppercase">{item.duration}</p>
+        )}
+
+        <p className="mt-4 flex items-baseline gap-1.5">
+          <span className="text-xl font-bold text-luxury-gold">IDR {item.price}</span>
+          <span className="text-xs text-gray-500">/vehicle</span>
+        </p>
+
+        <div className="mt-auto flex gap-2 border-t border-white/5 pt-5">
+          <button
+            type="button"
+            onClick={onSelect}
+            className="flex-1 cursor-pointer rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Details
+          </button>
+          <a
+            href={bookingLink(item)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-luxury-gold px-3 py-3 text-sm font-semibold text-dark-surface transition-colors hover:bg-luxury-gold-hover"
+          >
+            <Phone className="h-4 w-4" />
+            Book
+          </a>
+        </div>
+      </div>
+    </article>
+  )
+}
+
 function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void }) {
   const [copied, setCopied] = useState(false)
 
@@ -53,11 +120,6 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
     document.body.style.overflow = "hidden"
     return () => { document.body.style.overflow = "" }
   }, [])
-
-  const waMessage = encodeURIComponent(
-    `Hi! I'm interested in booking: ${item.route} (IDR ${item.price}).`
-  )
-  const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4" onClick={onClose}>
@@ -114,7 +176,7 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
           <a
-            href={waLink}
+            href={bookingLink(item)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-[#25D366] text-white font-semibold hover:brightness-110 hover:scale-[1.02] transition-all shadow-lg"
@@ -157,7 +219,7 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
 export default function Pricing() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [selectedItem, setSelectedItem] = useState<ListingItem | null>(null)
-  
+
   useGSAP(() => {
     gsap.fromTo('.pricing-header',
       { y: 30, opacity: 0 },
@@ -167,10 +229,10 @@ export default function Pricing() {
       }
     )
 
-    gsap.fromTo('.pricing-item',
-      { x: -20, opacity: 0 },
+    gsap.fromTo('.pricing-card',
+      { y: 30, opacity: 0 },
       {
-        x: 0, opacity: 1, stagger: 0.05, duration: 0.5, ease: "power2.out",
+        y: 0, opacity: 1, stagger: 0.04, duration: 0.5, ease: "power2.out",
         scrollTrigger: { trigger: containerRef.current, start: "top 75%" }
       }
     )
@@ -181,8 +243,8 @@ export default function Pricing() {
       <section id="pricing" ref={containerRef} className="py-24 px-6 md:px-12 lg:px-24 relative bg-[#0a0a0a]">
         {/* Background glow */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-luxury-gold/5 rounded-full blur-[120px] pointer-events-none" />
-        
-        <div className="max-w-6xl mx-auto relative z-10">
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="pricing-header text-center mb-16 max-w-2xl mx-auto">
             <span className="text-luxury-gold font-medium tracking-wider uppercase text-sm mb-4 block">
               Transparent Rates
@@ -195,88 +257,48 @@ export default function Pricing() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-            
-            {/* Airport Transfers */}
-            <div>
-              <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
-                <div className="p-2 bg-luxury-gold/10 rounded-lg">
-                  <Plane className="w-6 h-6 text-luxury-gold" />
-                </div>
-                <h3 className="text-2xl font-serif text-white">Airport Transfers</h3>
-              </div>
-              
-              <div className="space-y-2">
-                {transfers.map((item, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setSelectedItem(item)}
-                    className="pricing-item group flex items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-all cursor-pointer border border-transparent hover:border-luxury-gold/20 hover:shadow-[0_0_15px_rgba(212,175,55,0.05)]"
-                  >
-                    <span className="text-gray-300 group-hover:text-white transition-colors">
-                      {item.route}
-                    </span>
-                    <div className="flex items-center gap-3">
-                      <span className="font-bold text-luxury-gold text-lg">
-                        IDR {item.price}
-                      </span>
-                      <ArrowRight className="w-4 h-4 text-white/0 group-hover:text-luxury-gold transition-colors" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {/* Airport Transfers */}
+          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
+            <div className="p-2 bg-luxury-gold/10 rounded-lg">
+              <Plane className="w-6 h-6 text-luxury-gold" />
             </div>
-
-            {/* Charters & Tours */}
-            <div>
-              <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
-                <div className="p-2 bg-luxury-gold/10 rounded-lg">
-                  <Map className="w-6 h-6 text-luxury-gold" />
-                </div>
-                <h3 className="text-2xl font-serif text-white">Charters & Tours</h3>
-              </div>
-              
-              <div className="space-y-2">
-                {tours.map((item, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setSelectedItem(item)}
-                    className="pricing-item group flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-all cursor-pointer border border-transparent hover:border-luxury-gold/20 hover:shadow-[0_0_15px_rgba(212,175,55,0.05)] gap-2 sm:gap-0"
-                  >
-                    <div>
-                      <span className="block text-gray-300 group-hover:text-white transition-colors">
-                        {item.route}
-                      </span>
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">
-                        {item.duration}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-bold text-luxury-gold text-lg">
-                        IDR {item.price}
-                      </span>
-                      <ArrowRight className="w-4 h-4 text-white/0 group-hover:text-luxury-gold transition-colors" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="mt-8 p-6 rounded-xl border border-luxury-gold/20 bg-luxury-gold/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div>
-                  <h4 className="text-white font-medium mb-1">Looking for a custom route?</h4>
-                  <p className="text-sm text-gray-400">We can tailor a journey just for you.</p>
-                </div>
-                <ContactDropdown
-                  label="Contact Us"
-                  variant="small"
-                  message="Hi! I'd like to discuss a custom route."
-                  icon={<ArrowRight className="w-4 h-4" />}
-                  className="whitespace-nowrap px-6 py-2.5 rounded-lg text-sm"
-                />
-              </div>
-            </div>
-            
+            <h3 className="text-2xl font-serif text-white">Airport Transfers</h3>
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {transfers.map((item) => (
+              <ListingCard key={item.route} item={item} onSelect={() => setSelectedItem(item)} />
+            ))}
+          </div>
+
+          {/* Charters & Tours */}
+          <div className="flex items-center gap-3 mt-20 mb-8 pb-4 border-b border-white/10">
+            <div className="p-2 bg-luxury-gold/10 rounded-lg">
+              <Map className="w-6 h-6 text-luxury-gold" />
+            </div>
+            <h3 className="text-2xl font-serif text-white">Charters &amp; Tours</h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {tours.map((item) => (
+              <ListingCard key={item.route} item={item} onSelect={() => setSelectedItem(item)} />
+            ))}
+          </div>
+
+          <div className="mt-16 p-6 rounded-xl border border-luxury-gold/20 bg-luxury-gold/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h4 className="text-white font-medium mb-1">Looking for a custom route?</h4>
+              <p className="text-sm text-gray-400">We can tailor a journey just for you.</p>
+            </div>
+            <ContactDropdown
+              label="Contact Us"
+              variant="small"
+              message="Hi! I'd like to discuss a custom route."
+              icon={<ArrowRight className="w-4 h-4" />}
+              className="whitespace-nowrap px-6 py-2.5 rounded-lg text-sm"
+            />
+          </div>
+
         </div>
       </section>
 
