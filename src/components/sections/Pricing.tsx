@@ -5,17 +5,26 @@ import Image from "next/image"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Plane, Map, ArrowRight, X, MessageCircle, Phone } from "lucide-react"
+import { Plane, Map, ArrowRight, X, MessageCircle, Phone, Bike, LifeBuoy, Waves, type LucideIcon } from "lucide-react"
 import ContactDropdown from "@/components/ui/ContactDropdown"
 
 gsap.registerPlugin(ScrollTrigger)
 
+type ListingType = "transfer" | "tour" | "activity"
+
 interface ListingItem {
   route: string
-  price: string
+  price?: string
   duration?: string
-  type: "transfer" | "tour"
+  type: ListingType
+  icon?: LucideIcon
   image?: string
+}
+
+const TYPE_LABELS: Record<ListingType, string> = {
+  transfer: "Airport Transfer",
+  tour: "Charter Tour",
+  activity: "Adventure Activity",
 }
 
 const transfers: ListingItem[] = [
@@ -45,18 +54,26 @@ const tours: ListingItem[] = [
   { route: "Kuta → Kintamani Tour", duration: "10 hours", price: "800k", type: "tour" },
 ]
 
+const activities: ListingItem[] = [
+  { route: "ATV Quad Bike", type: "activity", icon: Bike },
+  { route: "Water Rafting", type: "activity", icon: LifeBuoy },
+  { route: "Surfing", type: "activity", icon: Waves },
+]
+
 const WHATSAPP_NUMBER = "62881037512641"
 const WECHAT_ID = "wxid_tz213yzqzud422"
 
 function bookingLink(item: ListingItem) {
   const message = encodeURIComponent(
-    `Hi! I'm interested in booking: ${item.route} (IDR ${item.price}).`
+    item.price
+      ? `Hi! I'm interested in booking: ${item.route} (IDR ${item.price}).`
+      : `Hi! I'm interested in booking: ${item.route}. Could you send me the price?`
   )
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`
 }
 
 function ListingCard({ item, onSelect }: { item: ListingItem; onSelect: () => void }) {
-  const Icon = item.type === "transfer" ? Plane : Map
+  const Icon = item.icon ?? (item.type === "transfer" ? Plane : Map)
 
   return (
     <article className="pricing-card group glass-dark flex flex-col rounded-2xl border border-white/5 p-3 transition-colors hover:border-luxury-gold/30">
@@ -75,7 +92,7 @@ function ListingCard({ item, onSelect }: { item: ListingItem; onSelect: () => vo
           </div>
         )}
         <span className="absolute top-3 left-3 rounded-full border border-white/15 bg-black/50 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm">
-          {item.type === "transfer" ? "Airport Transfer" : "Charter Tour"}
+          {TYPE_LABELS[item.type]}
         </span>
       </div>
 
@@ -86,8 +103,14 @@ function ListingCard({ item, onSelect }: { item: ListingItem; onSelect: () => vo
         )}
 
         <p className="mt-4 flex items-baseline gap-1.5">
-          <span className="text-xl font-bold text-luxury-gold">IDR {item.price}</span>
-          <span className="text-xs text-gray-500">/vehicle</span>
+          {item.price ? (
+            <>
+              <span className="text-xl font-bold text-luxury-gold">IDR {item.price}</span>
+              <span className="text-xs text-gray-500">/vehicle</span>
+            </>
+          ) : (
+            <span className="text-xl font-bold text-luxury-gold">Price on request</span>
+          )}
         </p>
 
         <div className="mt-auto flex gap-2 border-t border-white/5 pt-5">
@@ -140,7 +163,7 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
 
         {/* Badge */}
         <span className="inline-block text-xs font-semibold uppercase tracking-widest text-luxury-gold bg-luxury-gold/10 px-3 py-1 rounded-full mb-6">
-          {item.type === "transfer" ? "Airport Transfer" : "Charter Tour"}
+          {TYPE_LABELS[item.type]}
         </span>
 
         {/* Route */}
@@ -153,25 +176,33 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
 
         {/* Price */}
         <div className="flex items-baseline gap-2 mb-8 pb-8 border-b border-white/10">
-          <span className="text-4xl font-bold text-luxury-gold">IDR {item.price}</span>
-          <span className="text-gray-500 text-sm">/vehicle</span>
+          {item.price ? (
+            <>
+              <span className="text-4xl font-bold text-luxury-gold">IDR {item.price}</span>
+              <span className="text-gray-500 text-sm">/vehicle</span>
+            </>
+          ) : (
+            <span className="text-3xl font-bold text-luxury-gold">Price on request</span>
+          )}
         </div>
 
-        {/* Features */}
-        <ul className="space-y-3 mb-10 text-sm text-gray-300">
-          <li className="flex items-center gap-3">
-            <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-            Professional English-speaking driver
-          </li>
-          <li className="flex items-center gap-3">
-            <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-            Comfortable Air-Conditioned Vehicle
-          </li>
-          <li className="flex items-center gap-3">
-            <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-            All Fuel &amp; Parking Included
-          </li>
-        </ul>
+        {/* Features — published for transfers and charters only */}
+        {item.type !== "activity" && (
+          <ul className="space-y-3 mb-10 text-sm text-gray-300">
+            <li className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
+              Professional English-speaking driver
+            </li>
+            <li className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
+              Comfortable Air-Conditioned Vehicle
+            </li>
+            <li className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
+              All Fuel &amp; Parking Included
+            </li>
+          </ul>
+        )}
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
@@ -253,7 +284,7 @@ export default function Pricing() {
               Our Pricing
             </h2>
             <p className="text-gray-400 text-lg">
-              Competitive and transparent pricing for airport transfers and curated day tours across Bali. Tap any listing to book instantly.
+              Competitive and transparent pricing for airport transfers, curated day tours and adventure activities across Bali. Tap any listing to book instantly.
             </p>
           </div>
 
@@ -281,6 +312,20 @@ export default function Pricing() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {tours.map((item) => (
+              <ListingCard key={item.route} item={item} onSelect={() => setSelectedItem(item)} />
+            ))}
+          </div>
+
+          {/* Adventure Activities */}
+          <div className="flex items-center gap-3 mt-20 mb-8 pb-4 border-b border-white/10">
+            <div className="p-2 bg-luxury-gold/10 rounded-lg">
+              <Waves className="w-6 h-6 text-luxury-gold" />
+            </div>
+            <h3 className="text-2xl font-serif text-white">Adventure Activities</h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {activities.map((item) => (
               <ListingCard key={item.route} item={item} onSelect={() => setSelectedItem(item)} />
             ))}
           </div>
