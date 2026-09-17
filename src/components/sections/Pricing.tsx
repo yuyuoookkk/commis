@@ -18,7 +18,7 @@ interface ListingItem {
   duration?: string
   type: ListingType
   icon?: LucideIcon
-  image?: string
+  images?: string[]
 }
 
 const TYPE_LABELS: Record<ListingType, string> = {
@@ -57,7 +57,17 @@ const tours: ListingItem[] = [
 const activities: ListingItem[] = [
   { route: "ATV Quad Bike", type: "activity", icon: Bike },
   { route: "Water Rafting", type: "activity", icon: LifeBuoy },
-  { route: "Surfing", type: "activity", icon: Waves },
+  {
+    route: "Surfing",
+    type: "activity",
+    icon: Waves,
+    images: [
+      "/assets/surfing-1.jpg",
+      "/assets/surfing-2.jpg",
+      "/assets/surfing-3.jpg",
+      "/assets/surfing-4.jpg",
+    ],
+  },
 ]
 
 const WHATSAPP_NUMBER = "62881037512641"
@@ -74,13 +84,14 @@ function bookingLink(item: ListingItem) {
 
 function ListingCard({ item, onSelect }: { item: ListingItem; onSelect: () => void }) {
   const Icon = item.icon ?? (item.type === "transfer" ? Plane : Map)
+  const cover = item.images?.[0]
 
   return (
     <article className="pricing-card group glass-dark flex flex-col rounded-2xl border border-white/5 p-3 transition-colors hover:border-luxury-gold/30">
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-dark-elevated">
-        {item.image ? (
+        {cover ? (
           <Image
-            src={item.image}
+            src={cover}
             alt={item.route}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -151,7 +162,9 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-lg bg-[#121212] border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl animate-[modalIn_0.3s_ease-out]"
+        // Lenis hijacks the wheel on desktop; this opts the modal out so it scrolls natively
+        data-lenis-prevent
+        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#121212] border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl animate-[modalIn_0.3s_ease-out]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -160,6 +173,23 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
         >
           <X className="w-5 h-5 text-white/70" />
         </button>
+
+        {/* Photos */}
+        {item.images && item.images.length > 0 && (
+          <div className={`grid gap-2 mb-7 ${item.images.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
+            {item.images.map((src) => (
+              <div key={src} className="relative aspect-[4/3] overflow-hidden rounded-xl bg-dark-elevated">
+                <Image
+                  src={src}
+                  alt={item.route}
+                  fill
+                  sizes="(max-width: 640px) 50vw, 250px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Badge */}
         <span className="inline-block text-xs font-semibold uppercase tracking-widest text-luxury-gold bg-luxury-gold/10 px-3 py-1 rounded-full mb-6">
