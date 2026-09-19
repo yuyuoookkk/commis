@@ -46,7 +46,9 @@ function LoginForm() {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     setBusy(false)
 
-    if (error) setError("Those details were not recognised.")
+    // Supabase distinguishes a wrong password from an unconfirmed email or a
+    // disabled provider, and that difference is what you need to fix it.
+    if (error) setError(error.message)
   }
 
   return (

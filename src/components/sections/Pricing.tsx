@@ -27,36 +27,53 @@ const TYPE_LABELS: Record<ListingType, string> = {
   activity: "Adventure Activity",
 }
 
+// One photo per destination; routes sharing a destination share its photo.
+const PHOTO = {
+  kuta: "/assets/dest-kuta.jpg",
+  nusaDua: "/assets/dest-nusa-dua.jpg",
+  sanur: "/assets/dest-sanur.jpg",
+  seminyak: "/assets/dest-seminyak.jpg",
+  canggu: "/assets/dest-canggu.jpg",
+  ubud: "/assets/dest-ubud.jpg",
+  kintamani: "/assets/dest-kintamani.jpg",
+  lovina: "/assets/dest-lovina.jpg",
+  amed: "/assets/dest-amed.jpg",
+  tulamben: "/assets/dest-tulamben.jpg",
+  uluwatu: "/assets/dest-uluwatu.jpg",
+  jimbaran: "/assets/dest-jimbaran.jpg",
+}
+
 const transfers: ListingItem[] = [
-  { route: "Airport → Kuta / Legian", price: "200k", type: "transfer" },
-  { route: "Airport → Nusa Dua", price: "250k", type: "transfer" },
-  { route: "Airport → Sanur", price: "250k", type: "transfer" },
-  { route: "Airport → Umalas / Kerobokan / Seminyak", price: "300k", type: "transfer" },
-  { route: "Airport → Canggu", price: "400k", type: "transfer" },
-  { route: "Airport → Ubud", price: "400k", type: "transfer" },
-  { route: "Airport → Kintamani", price: "600k", type: "transfer" },
-  { route: "Airport → Lovina", price: "700k", type: "transfer" },
-  { route: "Airport → Amed", price: "600k", type: "transfer" },
-  { route: "Airport → Tulamben", price: "700k", type: "transfer" },
-  { route: "Sanur → Kuta / Legian", price: "200k", type: "transfer" },
-  { route: "Sanur → Seminyak", price: "250k", type: "transfer" },
-  { route: "Sanur → Berawa / Canggu", price: "400k", type: "transfer" },
-  { route: "Sanur → Nusa Dua", price: "300k", type: "transfer" },
-  { route: "Sanur → Uluwatu", price: "400k", type: "transfer" },
-  { route: "Sanur → Jimbaran", price: "250k", type: "transfer" },
-  { route: "Sanur → Ubud Central", price: "300k", type: "transfer" },
+  { route: "Airport → Kuta / Legian", price: "200k", type: "transfer", images: [PHOTO.kuta] },
+  { route: "Airport → Nusa Dua", price: "250k", type: "transfer", images: [PHOTO.nusaDua] },
+  { route: "Airport → Sanur", price: "250k", type: "transfer", images: [PHOTO.sanur] },
+  { route: "Airport → Umalas / Kerobokan / Seminyak", price: "300k", type: "transfer", images: [PHOTO.seminyak] },
+  { route: "Airport → Canggu", price: "400k", type: "transfer", images: [PHOTO.canggu] },
+  { route: "Airport → Ubud", price: "400k", type: "transfer", images: [PHOTO.ubud] },
+  { route: "Airport → Kintamani", price: "600k", type: "transfer", images: [PHOTO.kintamani] },
+  { route: "Airport → Lovina", price: "700k", type: "transfer", images: [PHOTO.lovina] },
+  { route: "Airport → Amed", price: "600k", type: "transfer", images: [PHOTO.amed] },
+  { route: "Airport → Tulamben", price: "700k", type: "transfer", images: [PHOTO.tulamben] },
+  { route: "Sanur → Kuta / Legian", price: "200k", type: "transfer", images: [PHOTO.kuta] },
+  { route: "Sanur → Seminyak", price: "250k", type: "transfer", images: [PHOTO.seminyak] },
+  { route: "Sanur → Berawa / Canggu", price: "400k", type: "transfer", images: [PHOTO.canggu] },
+  { route: "Sanur → Nusa Dua", price: "300k", type: "transfer", images: [PHOTO.nusaDua] },
+  { route: "Sanur → Uluwatu", price: "400k", type: "transfer", images: [PHOTO.uluwatu] },
+  { route: "Sanur → Jimbaran", price: "250k", type: "transfer", images: [PHOTO.jimbaran] },
+  { route: "Sanur → Ubud Central", price: "300k", type: "transfer", images: [PHOTO.ubud] },
 ]
 
 const tours: ListingItem[] = [
-  { route: "Kuta / Uluwatu Tour", duration: "10 hours", price: "600k", type: "tour" },
-  { route: "Kuta / Ubud Tour", duration: "10 hours", price: "700k", type: "tour" },
-  { route: "Ubud Tour", duration: "10 hours", price: "600k", type: "tour" },
-  { route: "Kuta → Kintamani Tour", duration: "10 hours", price: "800k", type: "tour" },
+  { route: "Kuta / Uluwatu Tour", duration: "10 hours", price: "600k", type: "tour", images: [PHOTO.uluwatu] },
+  // Kuta rather than Ubud, so this doesn't sit beside an identical Ubud Tour card.
+  { route: "Kuta / Ubud Tour", duration: "10 hours", price: "700k", type: "tour", images: [PHOTO.kuta] },
+  { route: "Ubud Tour", duration: "10 hours", price: "600k", type: "tour", images: [PHOTO.ubud] },
+  { route: "Kuta → Kintamani Tour", duration: "10 hours", price: "800k", type: "tour", images: [PHOTO.kintamani] },
 ]
 
 const activities: ListingItem[] = [
-  { route: "ATV Quad Bike", type: "activity", icon: Bike },
-  { route: "Water Rafting", type: "activity", icon: LifeBuoy },
+  { route: "ATV Quad Bike", type: "activity", icon: Bike, images: ["/assets/activity-atv.jpg"] },
+  { route: "Water Rafting", type: "activity", icon: LifeBuoy, images: ["/assets/activity-rafting.jpg"] },
   {
     route: "Surfing",
     type: "activity",
