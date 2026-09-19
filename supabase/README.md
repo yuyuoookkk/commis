@@ -1,11 +1,13 @@
 # Guest reviews setup
 
-Visitors submit reviews from the site; nothing appears publicly until you approve it.
+Visitors submit reviews from the site; nothing appears publicly until you approve it at
+`/admin`.
 
 ## 1. Create the project
 
 1. Sign up at [supabase.com](https://supabase.com) and create a new project (free tier is fine).
 2. Open **SQL Editor → New query**, paste the contents of [`schema.sql`](./schema.sql), and run it.
+   It is safe to re-run if you change it later.
 
 ## 2. Connect the site
 
@@ -25,29 +27,51 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
 Add the same two variables in your hosting dashboard (Vercel: **Settings → Environment
 Variables**) and redeploy.
 
-Without these set, the site still builds and runs — the "Write a review" button is hidden
-and the placeholder testimonials show instead.
+Without these set, the site still builds and runs — the "Write a review" button is hidden,
+the placeholder testimonials show, and `/admin` says it is not configured.
 
-## 3. Approving reviews
+## 3. Create your admin login
 
-New submissions land in the `reviews` table with `approved = false`, which means the site
-cannot see them at all.
+1. **Authentication → Users → Add user**. Use your own email and a strong password, and
+   tick *Auto Confirm User*.
+2. Copy the new user's **UID**.
+3. **SQL Editor**, replacing the UID:
 
-To publish one: **Table Editor → reviews →** tick the `approved` checkbox on that row.
-It appears on the site the next time someone loads the page. Untick it to take it down.
-Delete a row to discard spam.
+   ```sql
+   insert into public.admins (user_id) values ('paste-the-uid-here');
+   ```
+
+4. **Authentication → Sign In / Providers**: turn **off** "Allow new users to sign up".
+   Nobody needs to register — you add admins by hand.
+
+## 4. Approving reviews
+
+Go to `/admin` on your site (e.g. `violetbalidriver.com/admin`) and sign in.
+
+- **Pending** lists everything waiting. **Publish** puts a review on the site.
+- **Published** lists what is live. **Unpublish** takes one down without deleting it.
+- **Delete** asks for confirmation, then removes the review permanently.
+
+The page is excluded from search engines, but treat the URL as public — the password is
+what protects it.
 
 ## Why the anon key is safe to publish
 
 The anon key is designed to sit in public browser code. What it can actually do is fixed by
 the row-level security policies in `schema.sql`:
 
-- **read** — only rows where `approved = true`
-- **insert** — only rows where `approved = false`, so nobody can publish their own review
-- **update / delete** — no policy exists, so both are refused
+| Who | Can do |
+| --- | --- |
+| Anyone, signed out | Read reviews where `approved = true`; insert a review that is forced to `approved = false` |
+| Signed in, not in `admins` | Exactly the same as signed out |
+| Signed in, in `admins` | Read every review, publish/unpublish, delete |
 
-Approving happens in the dashboard, which uses your privileged credentials and bypasses RLS.
-Keep the **service_role** key secret — it ignores every policy above and must never go in
+Nobody can publish their own review: the insert policy's `with check` refuses any row where
+`approved` is true. There is no update or delete policy for visitors, so both are denied.
+The dashboard's buttons only work because a signed-in admin's token satisfies the admin
+policies — the buttons existing in public JavaScript grants nothing on its own.
+
+Keep the **service_role** key secret. It ignores every policy above and must never appear in
 this repo or in a `NEXT_PUBLIC_*` variable.
 
 ## Note on spam
