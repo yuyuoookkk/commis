@@ -5,12 +5,12 @@ import Image from "next/image"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Plane, Map, ArrowRight, X, MessageCircle, Phone, Bike, LifeBuoy, Waves, type LucideIcon } from "lucide-react"
+import { Plane, Map, ArrowRight, X, MessageCircle, Phone, Bike, LifeBuoy, Waves, UtensilsCrossed, type LucideIcon } from "lucide-react"
 import ContactDropdown from "@/components/ui/ContactDropdown"
 
 gsap.registerPlugin(ScrollTrigger)
 
-type ListingType = "transfer" | "tour" | "activity"
+type ListingType = "transfer" | "tour" | "activity" | "dining"
 
 interface ListingItem {
   route: string
@@ -25,6 +25,7 @@ const TYPE_LABELS: Record<ListingType, string> = {
   transfer: "Airport Transfer",
   tour: "Charter Tour",
   activity: "Adventure Activity",
+  dining: "Restaurant",
 }
 
 // One photo per destination; routes sharing a destination share its photo.
@@ -83,6 +84,21 @@ const activities: ListingItem[] = [
       "/assets/surfing-2.jpg",
       "/assets/surfing-3.jpg",
       "/assets/surfing-4.jpg",
+    ],
+  },
+]
+
+const dining: ListingItem[] = [
+  {
+    route: "Seafood Restaurant",
+    type: "dining",
+    icon: UtensilsCrossed,
+    images: [
+      "/assets/seafood-basting.jpg",
+      "/assets/seafood-menu.jpg",
+      "/assets/seafood-fried-rice.jpg",
+      "/assets/seafood-salad.jpg",
+      "/assets/seafood-soup.jpg",
     ],
   },
 ]
@@ -191,19 +207,21 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
           <X className="w-5 h-5 text-white/70" />
         </button>
 
-        {/* Photos */}
+        {/* Photos. Stacked full width and uncropped, so menu posters stay
+            readable — a cropped thumbnail would cut the dish names off. */}
         {item.images && item.images.length > 0 && (
-          <div className={`grid gap-2 mb-7 ${item.images.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
+          <div className="flex flex-col gap-3 mb-7">
             {item.images.map((src) => (
-              <div key={src} className="relative aspect-[4/3] overflow-hidden rounded-xl bg-dark-elevated">
-                <Image
-                  src={src}
-                  alt={item.route}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 250px"
-                  className="object-cover"
-                />
-              </div>
+              // Plain img so each picture keeps its own proportions; images are
+              // unoptimized project-wide, so next/image would add nothing here.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={src}
+                src={src}
+                alt={item.route}
+                loading="lazy"
+                className="w-full h-auto rounded-xl bg-dark-elevated"
+              />
             ))}
           </div>
         )}
@@ -233,8 +251,8 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
           )}
         </div>
 
-        {/* Features — published for transfers and charters only */}
-        {item.type !== "activity" && (
+        {/* Features — written for car bookings, so they only apply to these two */}
+        {(item.type === "transfer" || item.type === "tour") && (
           <ul className="space-y-3 mb-10 text-sm text-gray-300">
             <li className="flex items-center gap-3">
               <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
@@ -373,6 +391,20 @@ export default function Pricing() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {activities.map((item) => (
+              <ListingCard key={item.route} item={item} onSelect={() => setSelectedItem(item)} />
+            ))}
+          </div>
+
+          {/* Dining */}
+          <div className="flex items-center gap-3 mt-20 mb-8 pb-4 border-b border-white/10">
+            <div className="p-2 bg-luxury-gold/10 rounded-lg">
+              <UtensilsCrossed className="w-6 h-6 text-luxury-gold" />
+            </div>
+            <h3 className="text-2xl font-serif text-white">Dining</h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {dining.map((item) => (
               <ListingCard key={item.route} item={item} onSelect={() => setSelectedItem(item)} />
             ))}
           </div>
