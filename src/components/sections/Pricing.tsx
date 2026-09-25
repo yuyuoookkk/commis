@@ -19,6 +19,7 @@ interface ListingItem {
   type: ListingType
   icon?: LucideIcon
   images?: string[]
+  videos?: string[]
 }
 
 const TYPE_LABELS: Record<ListingType, string> = {
@@ -99,6 +100,10 @@ const dining: ListingItem[] = [
       "/assets/seafood-fried-rice.jpg",
       "/assets/seafood-salad.jpg",
       "/assets/seafood-soup.jpg",
+    ],
+    videos: [
+      "/assets/video/seafood-clip-1.mp4",
+      "/assets/video/seafood-clip-2.mp4",
     ],
   },
 ]
@@ -221,6 +226,23 @@ function DetailModal({ item, onClose }: { item: ListingItem; onClose: () => void
                 alt={item.route}
                 loading="lazy"
                 className="w-full h-auto rounded-xl bg-dark-elevated"
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Videos. Side by side because they are portrait, and nothing
+            downloads until played — #t=1 paints the frame at one second. */}
+        {item.videos && item.videos.length > 0 && (
+          <div className="grid grid-cols-2 gap-3 mb-7">
+            {item.videos.map((src) => (
+              <video
+                key={src}
+                src={`${src}#t=1`}
+                preload="metadata"
+                playsInline
+                controls
+                className="w-full aspect-[9/16] object-cover rounded-xl bg-dark-elevated"
               />
             ))}
           </div>
